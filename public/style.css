@@ -1,0 +1,184 @@
+:root {
+      --yellow: #FFE566;
+      --pink: #FF8FAB;
+      --mint: #A8EDCA;
+      --blue: #A0C4FF;
+      --night: #071536;
+      --orange: #FFAB5E;
+      --purple: #C9AAFF;
+      --ink: #1a1a2e;
+      --paper: #FDFAF3;
+      --brown: #C8A870;
+    }
+
+body {
+      background: var(--paper);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/
+     }
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 4rem;  /*1rem=16px*/
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--night);
+    border-bottom: 5px solid var(--orange);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /*transparence 0.3*/
+    }
+
+nav ul { 
+    list-style: none;
+    display: flex;
+    gap: 2.2rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto; /* pousser ul a droite */
+    }
+
+nav a {
+    background: var(--yellow) !important; 
+    color: var(--ink) !important;
+    text-decoration: none; 
+    padding: .5rem 1.3rem;
+    border-radius: 2px;
+    font-weight: 600;
+    transition: background .2s, transform .15s !important;
+    }
+
+nav a:hover::after {
+    display: none !important;
+    }
+
+nav a:hover{ 
+    background: var(--pink) !important; 
+    color: var(--paper) !important; 
+    transform: translateY(-2px); 
+}
+
+
+.mur{
+    min-height: 91vh;/*1vh = 1% de la hauteur de l’écran*/
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* diviser mur en 2*/
+    }
+
+.left {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 3.5rem 5rem 5rem;
+    }
+
+
+h1 {
+    font-family: 'Caveat', cursive;
+    font-size: clamp(3rem, 5.5vw, 5.2rem);
+    line-height: 1.0; 
+    font-weight: 700; 
+    margin-bottom: 1.4rem;
+    }
+
+h1 .hl {
+    position: relative; 
+    display: inline-block;
+    background: linear-gradient(transparent 50%, var(--yellow) 50%); 
+    
+    }
+
+
+.sub {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: var(--ink);
+    max-width: 430px;
+    margin-bottom: 2.2rem;
+    font-weight: 300;
+    }
+
+.right {
+    background: var(--purple);
+    border-left: 4px solid var(--ink);
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; 
+    }
+
+.postit_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px); /*3 colonnes de 200px*/
+    grid-template-rows: repeat(3, 200px); /*3 lignes de 200px*/
+    gap: 14px;
+    padding: 2.5rem;
+    transform: rotate(-4deg); /* pivoter*/
+    }
+
+.postit {
+      border: 2px solid var(--ink);
+      padding: 1rem 1rem .8rem;
+      font-family: 'Caveat', cursive;
+      font-size: 1.05rem; 
+      line-height: 1.4;
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform .2s ease, box-shadow .2s ease;
+      cursor: pointer;
+    }
+
+.p1 { background: var(--pink); }
+.p2 { background: var(--mint);}
+.p3 { background: var(--blue);  }
+.p4 { background: var(--yellow);  }
+.p5 { background: var(--orange);}
+.p6 { background: var(--purple); }
+.p7 { background: var(--mint); }
+.p8 { background: var(--yellow);  }
+.p9 { background: var(--pink); }
+
+
+.visiter {
+    background: var(--yellow); 
+    color: var(--ink);
+    padding: .85rem 2rem; 
+    border: 2px solid var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .97rem; 
+    font-weight: 600;
+    cursor: pointer; 
+    border-radius: 2px;
+    transition: background .2s, color .2s, transform .15s;
+    margin-bottom: 50px;
+    margin-top: 60px;
+    margin-left: 250px;
+    }
+
+.visiter:hover { 
+    background: var(--pink);
+    color: var(--ink);
+    transform: translateY(-2px); 
+}
+
+footer {
+    background-color:var(--night) ;
+    border-top: 4px solid var(--orange);
+    padding: 1.8rem 5rem;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    font-size: .86rem; 
+    color: #888;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3); /*transparence 0.3*/
+    }
+
+footer a { 
+    color: #888;
+    text-decoration: none; 
+    }
+
+footer a:hover { 
+    color: var(--ink);
+    }
