@@ -7,18 +7,6 @@ const db = require("../database/db");
 const router= express.Router(); //mini serveur de route qu'on peut brancher dans le serveur principal
 router.use(express.static('public'));
 
-
-
-//gestion autorisation d'access 
-// function peutAjoutre(req, res, next) {
-
-//     if (!req.session.user) {
-//         return res.redirect("/");
-//     }
-
-//     next(); // utilisateur autorisé
-// }
-
 router.get("/ajouter", function(req,res){
     return res.sendFile(path.join(__dirname, "../public/html/ajouter.html"));
 });

@@ -19,16 +19,7 @@ app.use(session({
     }
 }));
 
-//variale
-var postit_list = {}; 
-class postit{
-    constructor(id, user_id, text,date){
-        this.id=id;
-        this.user_id=user_id;
-        this.text=text;
-        this.date=date;
-    }
-}
+
 
 // Routes
 const accueil = require("./routes/accueil");
@@ -37,6 +28,8 @@ const signup = require("./routes/signup");
 const login = require("./routes/login");
 const ajouter = require("./routes/ajouter");
 const list = require("./routes/list");
+const effacer = require("./routes/effacer");
+const modifier = require("./routes/modifier");
 
 app.use(accueil);
 app.use(mur_postits);
@@ -44,6 +37,8 @@ app.use(signup);
 app.use(login);
 app.use(ajouter);
 app.use(list);
+app.use(modifier);
+app.use(effacer);
 
 // Serveur
 app.listen(3000, () => {

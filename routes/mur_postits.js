@@ -7,9 +7,9 @@ router.use(express.static('public'));
 
 router.get("/mur_postits", function(req,res){
     
-    if (req.session.user) {
-        return res.redirect("/ajouter");
-    }
+    // if (req.session.user) {
+    //     return res.redirect("/ajouter");
+    // }
     return res.sendFile(path.join(__dirname, "../public/html/mur_postits.html"));
 });
 
