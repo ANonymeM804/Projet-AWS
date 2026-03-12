@@ -1,6 +1,5 @@
 //route pour login
 
-
 const express = require("express"); 
 const path = require("path");
 const bcrypt = require("bcrypt");
@@ -11,7 +10,7 @@ const router = express.Router(); //mini serveur de route qu'on peut brancher dan
 
 // Afficher la page login
 router.get("/login", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "public", "login.html"));
+    res.sendFile(path.join(__dirname, "../public/html/login.html"));
 });
 
 // Traiter le formulaire login
@@ -19,7 +18,7 @@ router.post("/login", function (req, res) {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.redirect("/login?error=missing");
+        return res.status(400).json({ error: "missing" });
     }
 
     const cleanUsername = username.trim();
@@ -30,18 +29,18 @@ router.post("/login", function (req, res) {
         async function (err, user) {
             if (err) {
                 console.error("Erreur SELECT users :", err.message);
-                return res.status(500).send("Erreur serveur.");
+                return res.status(500).json({ error: "server_error" });
             }
 
             if (!user) {
-                return res.redirect("/login?error=invalid");
+                return res.status(401).json({ error: "invalid" });
             }
 
             try {
                 const match = await bcrypt.compare(password, user.password_hash);
 
                 if (!match) {
-                    return res.redirect("/login?error=invalid");
+                    return res.status(401).json({ error: "invalid" });
                 }
 
                 // Création de la session
@@ -50,10 +49,19 @@ router.post("/login", function (req, res) {
                     username: user.username
                 };
 
-                return res.redirect("/mur_postits");
+                // Réponse JSON avec l'utilisateur et la redirection
+                return res.json({
+                    success: true,
+                    user: {
+                        id: user.id,
+                        username: user.username
+                    },
+                    redirect: "/mur_postits"
+                });
+
             } catch (compareErr) {
                 console.error("Erreur bcrypt.compare :", compareErr.message);
-                return res.status(500).send("Erreur lors de la vérification du mot de passe.");
+                return res.status(500).json({ error: "server_error" });
             }
         }
     );

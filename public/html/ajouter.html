@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+   <meta charset="utf-8" />
+   <title>Sticko - Post-its </title>
+   <link rel="stylesheet" href="../css/ajouter.css">
+ </head>
+
+ <body>
+    
+    <nav>
+        <ul>
+            <li><a href="/ajouter" class="creation" id="creation">Creer</a></li>
+            <li><a href="/modifier" class="modification"  id="modification">modifier</a></li>
+            <li><a href="/effacer" class="suppression"  id="suppression">Supprimer</a></li>
+            <li><a href="/" class="accueil">Accueil</a></li>
+            <li><a href="/logout" class="logout">Logout</a></li>
+        </ul>
+    </nav>
+
+    
+    <div class="mur" id="mur" >
+        
+    </div>
+
+    <div id="popup-postit" class="popup">
+      <div class="contenu_postit">
+
+        <h2>Nouveau post-it</h2>
+
+        <label>MESSAGE</label>
+        <textarea id="postit-text" maxlength="100" placeholder="Écris quelque chose..."></textarea>
+
+        <label>COULEUR</label>
+        <div class="colors">
+          <span class="color" data-color="#FFE566" style="background:#FFE566"></span>
+          <span class="color" data-color="#FF8FAB" style="background:#FF8FAB"></span>
+          <span class="color" data-color="#A8EDCA" style="background:#A8EDCA"></span>
+          <span class="color" data-color="#A0C4FF" style="background:#A0C4FF"></span>
+          <span class="color" data-color="#FFAB5E" style="background:#FFAB5E"></span>
+          <span class="color" data-color="#C9AAFF" style="background:#C9AAFF"></span>
+          <span class="color" data-color="#FF6B6B" style="background:#FF6B6B"></span>
+          <span class="color" data-color="#FFFFFF" style="background:#FFFFFF"></span>
+        </div>
+
+        <div class="buttons">
+          <button id="annuler">Annuler</button>
+          <button id="coller">Coller !</button>
+        </div>
+
+      </div>
+    </div>
+
+    
+<footer>
+  <span>© 2026 Sticko — Fait avec 💛 en France</span>
+  <span>
+    <a href=" ">Mentions légales</a> &nbsp;·&nbsp;
+    <a href=" ">Confidentialité</a> &nbsp;·&nbsp;
+    <a href=" ">Contact</a>
+  </span>
+</footer>
+
+    <script src="../JavaScript/ajouter.js"></script>
+</body>
+</html>

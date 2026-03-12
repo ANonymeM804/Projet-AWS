@@ -4,12 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sticko - Connexion</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
-
   <style>
+    /* Même style */
     :root {
       --yellow: #FFE566;
       --pink: #FF8FAB;
@@ -24,13 +23,11 @@
       --error: #d62828;
       --success: #2a9d8f;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       background: var(--paper);
       font-family: 'DM Sans', sans-serif;
@@ -39,7 +36,6 @@
       display: flex;
       flex-direction: column;
     }
-
     nav {
       display: flex;
       justify-content: flex-end;
@@ -52,14 +48,12 @@
       border-bottom: 5px solid var(--orange);
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     }
-
     nav ul {
       list-style: none;
       display: flex;
       gap: 1.2rem;
       align-items: center;
     }
-
     nav a {
       background: var(--yellow);
       color: var(--ink);
@@ -70,46 +64,39 @@
       transition: background .2s, transform .15s;
       border: 2px solid transparent;
     }
-
     nav a:hover {
       background: var(--pink);
       color: var(--paper);
       transform: translateY(-2px);
     }
-
     .page {
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       min-height: calc(100vh - 90px);
     }
-
     .left {
       display: flex;
       flex-direction: column;
       justify-content: center;
       padding: 4rem 3rem 4rem 5rem;
     }
-
     .left h1 {
       font-family: 'Caveat', cursive;
       font-size: clamp(2.8rem, 5vw, 5rem);
       line-height: 1;
       margin-bottom: 1.2rem;
     }
-
     .left h1 .hl {
       background: linear-gradient(transparent 50%, var(--yellow) 50%);
       display: inline-block;
     }
-
     .left p {
       max-width: 450px;
       line-height: 1.8;
       font-size: 1.05rem;
       font-weight: 300;
     }
-
     .right {
       display: flex;
       align-items: center;
@@ -118,7 +105,6 @@
       border-left: 4px solid var(--ink);
       padding: 2rem;
     }
-
     .login-card {
       width: 100%;
       max-width: 430px;
@@ -127,30 +113,25 @@
       box-shadow: 8px 8px 0 var(--ink);
       padding: 2rem;
     }
-
     .login-card h2 {
       font-family: 'Caveat', cursive;
       font-size: 2.4rem;
       margin-bottom: .5rem;
     }
-
     .login-card .intro {
       font-size: .98rem;
       line-height: 1.6;
       margin-bottom: 1.5rem;
     }
-
     .form-group {
       margin-bottom: 1rem;
     }
-
     label {
       display: block;
       margin-bottom: .45rem;
       font-weight: 600;
       font-size: .95rem;
     }
-
     input {
       width: 100%;
       padding: .9rem 1rem;
@@ -162,27 +143,22 @@
       outline: none;
       transition: transform .15s, box-shadow .15s;
     }
-
     input:focus {
       transform: translateY(-1px);
       box-shadow: 4px 4px 0 var(--ink);
     }
-
     .message {
       min-height: 24px;
       margin-bottom: 1rem;
       font-size: .92rem;
       font-weight: 500;
     }
-
     .message.error {
       color: var(--error);
     }
-
     .message.success {
       color: var(--success);
     }
-
     .login-btn {
       width: 100%;
       background: var(--yellow);
@@ -196,28 +172,23 @@
       transition: background .2s, transform .15s;
       margin-top: .3rem;
     }
-
     .login-btn:hover {
       background: var(--pink);
       transform: translateY(-2px);
     }
-
     .bottom-link {
       margin-top: 1.3rem;
       text-align: center;
       font-size: .95rem;
     }
-
     .bottom-link a {
       color: var(--night);
       font-weight: 700;
       text-decoration: none;
     }
-
     .bottom-link a:hover {
       text-decoration: underline;
     }
-
     footer {
       background-color: var(--night);
       border-top: 4px solid var(--orange);
@@ -229,34 +200,27 @@
       color: #888;
       box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.3);
     }
-
     footer a {
       color: #888;
       text-decoration: none;
     }
-
     footer a:hover {
       color: var(--paper);
     }
-
     @media (max-width: 900px) {
       .page {
         grid-template-columns: 1fr;
       }
-
       .left {
         padding: 3rem 2rem 2rem 2rem;
       }
-
       .right {
         border-left: none;
         border-top: 4px solid var(--ink);
       }
-
       nav {
         padding: 1.2rem 1.5rem;
       }
-
       footer {
         flex-direction: column;
         gap: .8rem;
@@ -266,7 +230,6 @@
   </style>
 </head>
 <body>
-
   <nav>
     <ul>
       <li><a href="/">Accueil</a></li>
@@ -292,7 +255,7 @@
 
         <div id="message" class="message"></div>
 
-        <form action="/login" method="POST" id="loginForm">
+        <form id="loginForm">
           <div class="form-group">
             <label for="username">Nom d'utilisateur</label>
             <input
@@ -339,44 +302,72 @@
 
   <script>
     const form = document.getElementById('loginForm');
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
-    const message = document.getElementById('message');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const messageDiv = document.getElementById('message');
 
+    // Affichage des messages d'erreur de redirection (si jamais)
     const params = new URLSearchParams(window.location.search);
     const error = params.get("error");
     const success = params.get("success");
 
     if (error === "missing") {
-      message.textContent = "Tous les champs sont obligatoires.";
-      message.classList.add("error");
+      messageDiv.textContent = "Tous les champs sont obligatoires.";
+      messageDiv.classList.add("error");
+    } else if (error === "invalid") {
+      messageDiv.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
+      messageDiv.classList.add("error");
+    } else if (success === "signup") {
+      messageDiv.textContent = "Compte créé avec succès. Vous pouvez maintenant vous connecter.";
+      messageDiv.classList.add("success");
     }
 
-    if (error === "invalid") {
-      message.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
-      message.classList.add("error");
-    }
+    // Interception du formulaire avec fetch
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Empêche la soumission classique
 
-    if (success === "signup") {
-      message.textContent = "Compte créé avec succès. Vous pouvez maintenant vous connecter.";
-      message.classList.add("success");
-    }
+      // Réinitialiser le message
+      messageDiv.textContent = '';
+      messageDiv.className = 'message';
 
-    form.addEventListener('submit', function (e) {
-      message.textContent = '';
-      message.className = 'message';
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
 
-      if (username.value.trim() === '' || password.value.trim() === '') {
-        e.preventDefault();
-        message.textContent = 'Tous les champs sont obligatoires.';
-        message.classList.add('error');
+      // Validations côté client
+      if (!username || !password) {
+        messageDiv.textContent = 'Tous les champs sont obligatoires.';
+        messageDiv.classList.add('error');
+        return;
+      }
+      if (password.length < 8) {
+        messageDiv.textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
+        messageDiv.classList.add('error');
         return;
       }
 
-      if (password.value.length < 8) {
-        e.preventDefault();
-        message.textContent = 'Le mot de passe doit contenir au moins 8 caractères.';
-        message.classList.add('error');
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Stocker le username dans sessionStorage
+          sessionStorage.setItem('username', data.user.username);
+          // Rediriger vers le mur
+          window.location.href = data.redirect || '/mur_postits';
+        } else {
+          // Gérer les erreurs (ex: identifiants incorrects)
+          messageDiv.textContent = data.error || 'Nom d\'utilisateur ou mot de passe incorrect.';
+          messageDiv.classList.add('error');
+        }
+      } catch (err) {
+        console.error('Erreur réseau :', err);
+        messageDiv.textContent = 'Erreur de connexion au serveur.';
+        messageDiv.classList.add('error');
       }
     });
   </script>

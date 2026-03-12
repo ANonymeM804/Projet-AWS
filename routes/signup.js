@@ -9,7 +9,7 @@ const router = express.Router(); //mini serveur de route qu'on peut brancher dan
 
 // Afficher la page signup
 router.get("/signup", function (req, res) {
-    res.sendFile(path.join(__dirname, "..", "public", "signup.html"));
+    res.sendFile(path.join(__dirname, "../public/html/signup.html"));
 });
 
 // Traiter le formulaire signup
