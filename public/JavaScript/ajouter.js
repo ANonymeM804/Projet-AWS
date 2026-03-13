@@ -72,6 +72,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
+ 
+
+  console.log("ajouter.js chargé");
+
+async function testMesPostits() {
+    try {
+        const response = await fetch("/mes-postits");
+        const data = await response.json();
+        console.log("Mes post-its :", data);
+    } catch (error) {
+        console.error("Erreur fetch :", error);
+    }
+}
+
+testMesPostits();
+
   function creerPostit(x,y,couleur,texte, username, created_at){
         const postit = document.createElement("div");
         postit.style.display = "flex";

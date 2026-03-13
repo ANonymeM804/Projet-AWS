@@ -8,7 +8,26 @@ const router= express.Router(); //mini serveur de route qu'on peut brancher dans
 router.use(express.static('public'));
 
 router.get("/ajouter", function(req,res){
-    return res.sendFile(path.join(__dirname, "../public/html/ajouter.html"));
+
+    if(!req.session.user){
+        return res.redirect("/login");
+    }
+
+    res.sendFile(path.join(__dirname,"../public/html/ajouter.html"));
+});
+
+// Récupérer uniquement les post-its de l'utilisateur connecté
+router.get("/mes-postits", async function(req,res){
+
+    if(!req.session.user){
+        return res.status(401).json({error:"Utilisateur non connecté"});
+    }
+
+    const postits = await db("postits")
+        .where("user_id", req.session.user.id)
+        .orderBy("created_at","asc");
+
+    res.json(postits);
 });
 
 router.post("/ajouter", async function(req,res){
@@ -17,7 +36,7 @@ router.post("/ajouter", async function(req,res){
         return res.status(401).json({ error: "Utilisateur non connecté" });
     }
 
-    const {text,x,y,color} = req.body;
+    const {text,x,y} = req.body;
     const user_id = req.session.user.id;
 
     if (!text || x === undefined || y === undefined) {
@@ -29,7 +48,6 @@ router.post("/ajouter", async function(req,res){
             text: text,
             x: x,
             y: y,
-            color: color || null,
             user_id: user_id
         });
         return res.json({ success: true, id: result[0]});

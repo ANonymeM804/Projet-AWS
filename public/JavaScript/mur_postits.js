@@ -1,41 +1,56 @@
-document.addEventListener("DOMContentLoaded", () => {
+const mur = document.getElementById("mur");
+const userInfo = document.getElementById("user-info");
 
-    const creer=document.getElementById("creation");
-    const username= sessionStorage.getItem("username");
+async function chargerUtilisateur() {
+    try {
+        const response = await fetch("/session-user");
+        const data = await response.json();
 
-    creer.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
+        if (data && data.username) {
+            userInfo.textContent = `Connecté : ${data.username}`;
+        } else {
+            userInfo.textContent = "Utilisateur inconnu";
         }
-    });
+    } catch (error) {
+        console.error("Erreur utilisateur :", error);
+        userInfo.textContent = "Erreur utilisateur";
+    }
+}
 
-    const effacer=document.getElementById("suppression");
-    effacer.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
-        }
-    });
+async function chargerPostits() {
+    try {
+        const response = await fetch("/liste");
+        const postits = await response.json();
 
-    const modifier=document.getElementById("modification");
+        mur.innerHTML = "";
 
-    modifier.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
-        }
-    });
+        postits.forEach(postit => {
+            const div = document.createElement("div");
+            div.classList.add("postit");
 
-//logout
-const logout=this.document.getElementById("logout");
-    logout.addEventListener("click",async(e)=>{
-        e.preventDefault();
-        await fetch('/logout', { method: 'POST' });
-        sessionStorage.removeItem('user');
-        window.location.href = '/login';
-        
-    }   );
+            div.style.left = postit.x + "px";
+            div.style.top = postit.y + "px";
+            div.style.zIndex = postit.id;
 
-    
-});
+            div.innerHTML = `
+                <div class="postit-text">${postit.text}</div>
+                <div class="postit-meta">
+                    <span class="postit-author">@${postit.username}</span>
+                    <span class="postit-date">${new Date(postit.created_at).toLocaleString("fr-FR")}</span>
+                </div>
+            `;
+
+            mur.appendChild(div);
+        });
+
+    } catch (error) {
+        console.error("Erreur chargement post-its :", error);
+    }
+}
+
+async function initialiserMur() {
+    await chargerUtilisateur();
+    await chargerPostits();
+}
+
+initialiserMur();

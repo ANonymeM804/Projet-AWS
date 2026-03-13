@@ -13,4 +13,15 @@ router.get("/mur_postits", function(req,res){
     return res.sendFile(path.join(__dirname, "../public/html/mur_postits.html"));
 });
 
+router.get("/session-user", function (req, res) {
+    if (!req.session.user) {
+        return res.json({ user: null });
+    }
+
+    return res.json({
+        id: req.session.user.id,
+        username: req.session.user.username
+    });
+});
+
 module.exports=router; //rendre la route accessible depuis un autre fichier
