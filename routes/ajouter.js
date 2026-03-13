@@ -35,7 +35,6 @@ router.post("/ajouter", function(req,res){
             return res.json({ id: this.lastID, success: true });
         }
     );
-    return res.redirect("/mur_postits");
 });
 
 module.exports=router; //rendre la route accessible depuis un autre fichier
