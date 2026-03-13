@@ -62,7 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 const timeStr = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
                 const dateAffiche = `${dateStr} ${timeStr}`;
 
-                creerPostit(x, y, couleur, texte, username, dateAffiche);})
+                creerPostit(x, y, couleur, texte, username, dateAffiche);
+                //redirection
+                //window.location.href = "/mur_postits";
+              
+              })
             .catch(err => console.error("Erreur ajout post-it :", err));
 
   });
@@ -122,5 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
         textarea.value="";
   }
   
-   
+   //logout
+  const logout=this.document.getElementById("logout");
+    logout.addEventListener("click",async(e)=>{
+        e.preventDefault();
+        await fetch('/logout', { method: 'POST' });
+        sessionStorage.removeItem('user');
+        window.location.href = '/login';
+        
+    }   );
 });

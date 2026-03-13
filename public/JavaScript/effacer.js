@@ -27,4 +27,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    //logout
+    const logout=this.document.getElementById("logout");
+    logout.addEventListener("click",async(e)=>{
+        e.preventDefault();
+        await fetch('/logout', { method: 'POST' });
+        sessionStorage.removeItem('user');
+        window.location.href = '/login';
+        
+    }   );
+
  });
