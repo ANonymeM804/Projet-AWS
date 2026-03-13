@@ -1,11 +1,9 @@
-//route pour signup
-
 const express = require("express");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const db = require("../database/db");
+const db = require("../database/knex");
 
-const router = express.Router(); //mini serveur de route qu'on peut brancher dans le serveur principal
+const router = express.Router();
 
 // Afficher la page signup
 router.get("/signup", function (req, res) {
@@ -16,69 +14,45 @@ router.get("/signup", function (req, res) {
 router.post("/signup", async function (req, res) {
     const { username, password, confirmPassword } = req.body;
 
-    // 1. Vérifications de base
     if (!username || !password || !confirmPassword) {
-        return res.status(400).send("Tous les champs sont obligatoires.");
+        return res.redirect("/signup?error=missing");
     }
 
     const cleanUsername = username.trim();
 
     if (cleanUsername.length < 3) {
-        return res.status(400).send("Le nom d'utilisateur doit contenir au moins 3 caractères.");
+        return res.redirect("/signup?error=username");
     }
 
     if (password !== confirmPassword) {
-        return res.status(400).send("Les mots de passe ne correspondent pas.");
+        return res.redirect("/signup?error=password");
     }
 
     if (password.length < 8) {
-        return res.status(400).send("Le mot de passe doit contenir au moins 8 caractères.");
+        return res.redirect("/signup?error=shortpassword");
     }
 
     try {
-        // 2. Vérifier si le username existe déjà
-        db.get(
-            "SELECT id FROM users WHERE username = ?",
-            [cleanUsername],
-            async function (err, row) {
-                if (err) {
-                    console.error("Erreur SELECT users :", err.message);
-                    return res.status(500).send("Erreur serveur.");
-                }
+        const existingUser = await db("users")
+            .where({ username: cleanUsername })
+            .first();
 
-                if (row) {
-                    return res.redirect("/signup?error=username");
-                }
+        if (existingUser) {
+            return res.redirect("/signup?error=exists");
+        }
 
-                try {
-                    // 3. Hasher le mot de passe
-                    const saltRounds = 10;
-                    const passwordHash = await bcrypt.hash(password, saltRounds);
+        const passwordHash = await bcrypt.hash(password, 10);
 
-                    // 4. Insérer l'utilisateur
-                    db.run(
-                        "INSERT INTO users (username, password_hash) VALUES (?, ?)",
-                        [cleanUsername, passwordHash],
-                        function (insertErr) {
-                            if (insertErr) {
-                                console.error("Erreur INSERT users :", insertErr.message);
-                                return res.status(500).send("ERREUR 500: Impossible de créer le compte.");
-                            }
+        await db("users").insert({
+            username: cleanUsername,
+            password_hash: passwordHash
+        });
 
-                            // 5. Réponse succès
-                            return res.redirect("/login");
-                        }
-                    );
-                } catch (hashErr) {
-                    console.error("Erreur bcrypt :", hashErr.message);
-                    return res.status(500).send("Erreur lors du traitement du mot de passe.");
-                }
-            }
-        );
+        return res.redirect("/login?success=signup");
     } catch (error) {
-        console.error("Erreur générale signup :", error.message);
-        return res.status(500).send("Erreur serveur inattendue.");
+        console.error("Erreur signup avec Knex :", error.message);
+        return res.status(500).send("Impossible de créer le compte.");
     }
 });
 
-module.exports = router; //rendre la route accessible depuis un autre fichier
+module.exports = router;
