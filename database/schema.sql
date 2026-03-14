@@ -17,6 +17,8 @@ CREATE TABLE postits (
     x INTEGER NOT NULL,
     y INTEGER NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    color TEXT DEFAULT '#FFE566',
     user_id INTEGER NOT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
+
