@@ -6,10 +6,10 @@ async function chargerUtilisateur() {
         const response = await fetch("/session-user");
         const data = await response.json();
 
-        if (data && data.username) {
-            userInfo.textContent = `Connecté : ${data.username}`;
+        if (data && data.user && data.user.username) {
+            userInfo.textContent = `Connecté : ${data.user.username}`;
         } else {
-            userInfo.textContent = "Utilisateur inconnu";
+            userInfo.textContent = "Utilisateur non connecté";
         }
     } catch (error) {
         console.error("Erreur utilisateur :", error);
@@ -90,8 +90,6 @@ async function initialiserMur() {
 
 initialiserMur();
 
-
-
 //controle des bouttons
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -135,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });}
 
-//logout
+    //logout
     const logout=this.document.getElementById("logout");
     if(!username){
         logout.style.display="none";
@@ -143,9 +141,10 @@ document.addEventListener("DOMContentLoaded", () => {
     {    logout.addEventListener("click",async(e)=>{
             e.preventDefault();
             await fetch('/logout', { method: 'POST' });
-            sessionStorage.removeItem('user');
+            sessionStorage.removeItem('username');
             window.location.href = '/login';
             
         }   );}
+   
 
  });

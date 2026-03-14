@@ -6,11 +6,16 @@ const router= express.Router(); //mini serveur de route qu'on peut brancher dans
 router.use(express.static('public'));
 
 router.post("/logout", function(req,res){
-
     req.session.destroy((err) => {
         if (err) {
-            return res.status(500).json({ error: "Erreur de connexion" });
+            return res.status(500).json({ error: "Erreur de déconnexion" });
         }
+        res.clearCookie('connect.sid', { 
+            path: '/',
+            httpOnly: true,
+            secure: false
+
+         }); //passer { path: '/' } pour que le navigateur ne garde pas le cookie
         res.json({ success: true });
     });
 });

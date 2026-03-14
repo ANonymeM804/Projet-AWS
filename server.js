@@ -14,8 +14,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: false,
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60
+        httpOnly: true, // cookie non accessible depuis js
+        maxAge: 1000 * 60 * 60 //garder le cookie 1h si il n'est pas supprimé
     }
 }));
 
@@ -30,6 +30,7 @@ const ajouter = require("./routes/ajouter");
 const list = require("./routes/list");
 const effacer = require("./routes/effacer");
 const modifier = require("./routes/modifier");
+const logout = require("./routes/logout");
 
 app.use(accueil);
 app.use(mur_postits);
@@ -39,6 +40,7 @@ app.use(ajouter);
 app.use(list);
 app.use(modifier);
 app.use(effacer);
+app.use(logout);
 
 // Serveur
 app.listen(3000, () => {
