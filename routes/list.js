@@ -15,6 +15,7 @@ router.get("/liste", async function (req, res) {
                 "postits.text",
                 "postits.x",
                 "postits.y",
+                "postits.color",
                 "postits.created_at",
                 "users.username"
             )

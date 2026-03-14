@@ -1,3 +1,95 @@
+const mur = document.getElementById("mur");
+const userInfo = document.getElementById("user-info");
+
+async function chargerUtilisateur() {
+    try {
+        const response = await fetch("/session-user");
+        const data = await response.json();
+
+        if (data && data.username) {
+            userInfo.textContent = `Connecté : ${data.username}`;
+        } else {
+            userInfo.textContent = "Utilisateur inconnu";
+        }
+    } catch (error) {
+        console.error("Erreur utilisateur :", error);
+        userInfo.textContent = "Erreur utilisateur";
+    }
+}
+
+async function chargerPostits() {
+    try {
+        const response = await fetch("/liste");
+        const postits = await response.json();
+
+        mur.textContent= "";
+
+        postits.forEach(postit => {
+            const postitEl = document.createElement("div");
+            postitEl.style.display = "flex";
+            postitEl.style.flexDirection = "column";
+            postitEl.style.justifyContent = "space-between"; 
+            postitEl.className="postit";
+            postitEl.style.left = postit.x+ "px";
+            postitEl.style.top = postit.y + "px";
+            postitEl.style.background = postit.color;
+            postitEl.style.height="250px";
+            postitEl.style.width="250px";
+            postitEl.style.position="absolute";
+            postitEl.style.zIndex="1";
+            postitEl.style.border="1px solid #000";
+            postitEl.style.boxShadow="0 6px 8px rgba(0, 0, 0, 0.6)";
+            
+
+            // Ajouter le nom de l'utilisateur
+            const userEl = document.createElement("div");
+            userEl.textContent = postit.username;
+            userEl.style.borderBottom = "1px solid #555";
+            userEl.style.fontSize = "17px";
+            userEl.style.color = "#333";
+            userEl.style.margin="10px";
+            postitEl.appendChild(userEl);
+
+            // Ajouter le texte du post-it
+            const texteEl = document.createElement("div");
+            texteEl.textContent = postit.text;
+            texteEl.style.fontWeight = "bold";
+            texteEl.style.fontSize = "27px";
+            texteEl.style.margin="12px";
+            texteEl.style.textAlign = "center";
+            texteEl.style.fontFamily = "'Caveat', cursive";
+            texteEl.style.wordBreak = "break-word"; //couper les mots trop longs
+            texteEl.style.overflowWrap = "break-word"; //forcer un retour à la ligne
+            texteEl.style.whiteSpace = "pre-wrap"; //garder les retours à la ligne du textarea
+            postitEl.appendChild(texteEl);
+
+            // Ajouter l'heure de création
+            const dateEl = document.createElement("div");
+            dateEl.style.borderTop = "1px solid #555";
+            dateEl.style.height="30px";
+            dateEl.textContent = postit.created_at;
+            dateEl.style.fontSize = "17px";
+            dateEl.style.color = "#555";
+            dateEl.style.margin="10px";
+            postitEl.appendChild(dateEl);
+
+            mur.appendChild(postitEl);
+
+
+        });
+
+    } catch (error) {
+        console.error("Erreur chargement post-its :", error);
+    }
+}
+
+async function initialiserMur() {
+    await chargerUtilisateur();
+    await chargerPostits();
+}
+
+initialiserMur();
+
 //ecouter apres la creation du document non pas avant
 document.addEventListener("DOMContentLoaded", () => { 
 
@@ -8,9 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let x = 0;
   let y = 0;
   let texte = " ";
-  let created_at;
   let couleur = "#FFE566"; //la couleur du postit est jaune par defaut
-  let username = sessionStorage.getItem("username");
 
   //ecouter lors du double click
   mur.addEventListener("dblclick", function(event){
@@ -52,18 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }) 
             .then(res => res.json())
             .then(data => {
-                let date;
-                if (data.created_at) {
-                     date= new Date(data.created_at.replace(" ", "T"));
-                } else date= new Date();
-
-                // Formater pour n’afficher que date + heure
-                const dateStr = date.toLocaleDateString('fr-FR');
-                const timeStr = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-                const dateAffiche = `${dateStr} ${timeStr}`;
-
-                creerPostit(x, y, couleur, texte, username, dateAffiche);
-                //redirection
+                console.log("Post-it ajouté");
                 window.location.href = "/mur_postits";
               
               })
@@ -74,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
  
 
-  console.log("ajouter.js chargé");
+console.log("ajouter.js chargé");
 
 async function testMesPostits() {
     try {
@@ -88,60 +167,6 @@ async function testMesPostits() {
 
 testMesPostits();
 
-  function creerPostit(x,y,couleur,texte, username, created_at){
-        const postit = document.createElement("div");
-        postit.style.display = "flex";
-        postit.style.flexDirection = "column";
-        postit.style.justifyContent = "space-between"; 
-        postit.className="postit";
-        postit.style.left = x + "px";
-        postit.style.top = y + "px";
-        postit.style.background = couleur;
-        postit.style.height="310px";
-        postit.style.width="310px";
-        postit.style.position="absolute";
-        postit.style.border="1px solid #000";
-        postit.style.boxShadow="0 6px 8px rgba(0, 0, 0, 0.6)";
-        
-
-        // Ajouter le nom de l'utilisateur
-        const userEl = document.createElement("div");
-        userEl.textContent = username;
-        userEl.style.borderBottom = "1px solid #555";
-        userEl.style.fontSize = "12px";
-        userEl.style.color = "#333";
-        userEl.style.margin="10px";
-        postit.appendChild(userEl);
-
-         // Ajouter le texte du post-it
-        const texteEl = document.createElement("div");
-        texteEl.textContent = texte;
-        texteEl.style.fontWeight = "bold";
-        texteEl.style.fontSize = "27px";
-        texteEl.style.margin="12px";
-        texteEl.style.textAlign = "center";
-        texteEl.style.fontFamily = "'Caveat', cursive";
-        texteEl.style.wordBreak = "break-word"; //couper les mots trop longs
-        texteEl.style.overflowWrap = "break-word"; //forcer un retour à la ligne
-        texteEl.style.whiteSpace = "pre-wrap"; //garder les retours à la ligne du textarea
-        postit.appendChild(texteEl);
-
-        // Ajouter l'heure de création
-        const dateEl = document.createElement("div");
-        dateEl.style.borderTop = "1px solid #555";
-        dateEl.style.height="30px";
-        dateEl.textContent = created_at;
-        dateEl.style.fontSize = "12px";
-        dateEl.style.color = "#555";
-        dateEl.style.margin="10px";
-        postit.appendChild(dateEl);
-
-        mur.appendChild(postit);
-
-        popup.style.display="none";
-        textarea.value="";
-  }
-  
    //logout
   const logout=this.document.getElementById("logout");
     logout.addEventListener("click",async(e)=>{

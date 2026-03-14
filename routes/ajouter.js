@@ -36,7 +36,7 @@ router.post("/ajouter", async function(req,res){
         return res.status(401).json({ error: "Utilisateur non connecté" });
     }
 
-    const {text,x,y} = req.body;
+    const {text,x,y,color} = req.body;
     const user_id = req.session.user.id;
 
     if (!text || x === undefined || y === undefined) {
@@ -48,6 +48,7 @@ router.post("/ajouter", async function(req,res){
             text: text,
             x: x,
             y: y,
+            color:color,
             user_id: user_id
         });
         return res.json({ success: true, id: result[0]});
