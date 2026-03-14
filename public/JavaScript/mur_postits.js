@@ -22,7 +22,8 @@ async function chargerPostits() {
         const response = await fetch("/liste");
         const postits = await response.json();
 
-        mur.innerHTML = "";
+        // mur.innerHTML = "";
+        mur.textContent= "";
 
         postits.forEach(postit => {
             const div = document.createElement("div");
@@ -54,3 +55,60 @@ async function initialiserMur() {
 }
 
 initialiserMur();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const username= sessionStorage.getItem("username");
+    if(username){
+        const accueil=document.getElementById("accueil");
+        accueil.style.display="none";
+    }
+
+    
+    const creer=document.getElementById("creation");
+    if(!username) {
+        creer.style.display="none";
+    }else
+    {    creer.addEventListener("click", (e) => {
+            if (!username) {
+                e.preventDefault(); // bloque la redirection
+                alert("Veiller vous connectr pour créer un post-it");
+            }
+        });}
+
+    const effacer=document.getElementById("suppression");
+    if(!username) {
+        effacer.style.display="none";
+    }else
+    {    effacer.addEventListener("click", (e) => {
+            if (!username) {
+                e.preventDefault(); // bloque la redirection
+                alert("Veiller vous connectr pour créer un post-it");
+            }
+        });}
+
+    const modifier=document.getElementById("modification");
+    if(!username) {
+        modifier.style.display="none";
+    }else
+    {    modifier.addEventListener("click", (e) => {
+            if (!username) {
+                e.preventDefault(); // bloque la redirection
+                alert("Veiller vous connectr pour créer un post-it");
+            }
+        });}
+
+    //logout
+    const logout=this.document.getElementById("logout");
+    if(!username){
+        logout.style.display="none";
+    }else
+    {    logout.addEventListener("click",async(e)=>{
+            e.preventDefault();
+            await fetch('/logout', { method: 'POST' });
+            sessionStorage.removeItem('user');
+            window.location.href = '/login';
+            
+        }   );}
+
+ });

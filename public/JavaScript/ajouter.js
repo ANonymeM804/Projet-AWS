@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 creerPostit(x, y, couleur, texte, username, dateAffiche);
                 //redirection
-                //window.location.href = "/mur_postits";
+                window.location.href = "/mur_postits";
               
               })
             .catch(err => console.error("Erreur ajout post-it :", err));
