@@ -31,6 +31,7 @@ const list = require("./routes/list");
 const effacer = require("./routes/effacer");
 const modifier = require("./routes/modifier");
 const logout = require("./routes/logout");
+const guest = require("./routes/guest");
 
 app.use(accueil);
 app.use(mur_postits);
@@ -41,6 +42,7 @@ app.use(list);
 app.use(modifier);
 app.use(effacer);
 app.use(logout);
+app.use(guest);
 
 // Serveur
 app.listen(3000, () => {
