@@ -6,6 +6,11 @@ const router= express.Router(); //mini serveur de route qu'on peut brancher dans
 router.use(express.static('public'));
 
 router.get("/modifier", function(req,res){
+    
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
     return res.sendFile(path.join(__dirname, "../public/html/modifier.html"));
 });
 

@@ -28,4 +28,31 @@ router.get("/liste", async function (req, res) {
     }
 });
 
+router.get("/User_postit_liste", async function (req, res) {
+
+    if(!req.session.user){
+        return res.status(401).json({error:"Utilisateur non connecté"});
+    }
+
+    try {
+        console.log(" utilisater", req.session.user);
+        const postits = await db("postits")
+        .where("user_id", req.session.user.id)
+        .select(
+                "postits.id",
+                "postits.text",
+                "postits.x",
+                "postits.y",
+                "postits.color",
+                "postits.created_at",
+            )
+        .orderBy("postits.created_at","asc");
+
+        res.json(postits);
+    } catch (error) {
+        console.error("Erreur liste post-its :", error.message);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+});
+
 module.exports=router; //rendre la route accessible depuis un autre fichier

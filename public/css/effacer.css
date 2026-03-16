@@ -133,3 +133,47 @@ footer a {
 footer a:hover { 
     color: var(--ink);
     }
+
+
+    /*popup*/
+.popup{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index: 100;
+}
+
+.contenu_postit{
+  background:var(--night);
+  padding:40px;
+  width:450px;
+  border:4px solid #FFE566;
+  color:white;
+}
+
+.buttons{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top: 30px;
+}
+
+#supprimer{
+  background:#FFE566;
+  border:none;
+  padding:10px 20px;
+  cursor:pointer;
+}
+
+#annuler{
+  background:transparent;
+  border:1px solid white;
+  color:white;
+  padding:10px 20px;
+}

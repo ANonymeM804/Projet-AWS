@@ -20,13 +20,18 @@ async function chargerUtilisateur() {
 
 async function chargerPostits() {
     try {
-        const response = await fetch("/liste");
+        const response = await fetch("User_postit_liste");
         const postits = await response.json();
-
+        const username = sessionStorage.getItem("username");
         mur.textContent= "";
 
         postits.forEach(postit => {
+
+            //div postit
             const postitEl = document.createElement("div");
+
+            postitEl.dataset.id = postit.id;
+
             postitEl.style.display = "flex";
             postitEl.style.flexDirection = "column";
             postitEl.style.justifyContent = "space-between"; 
@@ -40,16 +45,38 @@ async function chargerPostits() {
             postitEl.style.zIndex="1";
             postitEl.style.border="1px solid #000";
             postitEl.style.boxShadow="0 6px 8px rgba(0, 0, 0, 0.6)";
-            
+
+            //l'entete
+            const headerEl = document.createElement("div");
+            headerEl.style.display = "flex";
+            headerEl.style.justifyContent = "space-between"; 
+            headerEl.style.alignItems = "center";
+            headerEl.style.marginLeft="5px";
+            headerEl.style.marginRight="5px";
+            headerEl.style.marginTop="10px";
+            headerEl.style.borderBottom = "1px solid #555";
+
 
             // Ajouter le nom de l'utilisateur
             const userEl = document.createElement("div");
-            userEl.textContent = postit.username;
-            userEl.style.borderBottom = "1px solid #555";
+            userEl.textContent = username;
             userEl.style.fontSize = "17px";
             userEl.style.color = "#333";
-            userEl.style.margin="10px";
-            postitEl.appendChild(userEl);
+            headerEl.appendChild(userEl);
+
+            //Ajouter boutton de suppression
+            const suppEl=document.createElement("img");
+            suppEl.className="effacer-img";
+            suppEl.src="./ressources/corbeille.png";
+            suppEl.alt = "Supprimer"; 
+            suppEl.style.background = "transparent";
+            suppEl.style.width="23px";
+            suppEl.style.border="none";
+            suppEl.style.borderRadius="50%";
+            suppEl.style.fontSize="16px";
+            headerEl.appendChild(suppEl);
+
+            postitEl.appendChild(headerEl);
 
             // Ajouter le texte du post-it
             const texteEl = document.createElement("div");
@@ -92,49 +119,64 @@ async function initialiserMur() {
 initialiserMur();
 
 
-
-//controle des bouttons
 document.addEventListener("DOMContentLoaded", () => {
 
-    const creer=document.getElementById("creation");
-    const username= sessionStorage.getItem("username");
+    //controle des bouttons de chaque postit
 
-    creer.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
+    const mur = document.getElementById("mur");
+
+    mur.addEventListener("click", (event) => {
+        if (event.target.classList.contains("effacer-img")) {
+
+            const popup = document.getElementById("popup-supprimer");
+            const postit = event.target.closest(".postit");
+
+            //recuperer l'id du postit
+            const postit_id= postit.dataset.id;
+            popup.style.display = "flex";
+
+            //annuler la suppression
+            document.getElementById("annuler").addEventListener("click", ()=>{
+            popup.style.display="none"; //cacher la fenetre 
+            });
+
+            //confirmer la suppression
+            document.getElementById("supprimer").addEventListener("click", ()=>{
+
+                //envoyer le postit au serveur
+                    fetch("/effacer",{
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body:JSON.stringify({id: postit_id})
+                        }) 
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log("Post-it supprime");
+                            popup.style.display = "none";
+                            window.location.href = "/mur_postits";
+                        
+                        })
+                        .catch(err => console.error("Erreur suppression post-it :", err));
+                        
+
+            });
+
+
         }
     });
 
-    const effacer=document.getElementById("suppression");
-    effacer.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
-        }
-    });
-
-    const modifier=document.getElementById("modification");
-
-    modifier.addEventListener("click", (e) => {
-        if (!username) {
-            e.preventDefault(); // bloque la redirection
-            alert("Veiller vous connectr pour créer un post-it");
-        }
-    });
+    
 
     //logout
     const logout=this.document.getElementById("logout");
-    if(!username){
-        logout.style.display="none";
-    }else
-    {    logout.addEventListener("click",async(e)=>{
+      logout.addEventListener("click",async(e)=>{
             e.preventDefault();
             await fetch('/logout', { method: 'POST' });
             sessionStorage.removeItem('username');
             window.location.href = '/login';
             
-        }   );}
+        }   );
     
 
  });
+

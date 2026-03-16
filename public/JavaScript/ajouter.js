@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //ecouter lors du double click
   mur.addEventListener("dblclick", function(event){
 
-     const rect = mur.getBoundingClientRect();
+     const rect = mur.getBoundingClientRect(); //retourne la position
 
     //recuperation des position dans le mur et non pas dans l'ecran
       x=event.clientX -rect.left;
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("annuler").addEventListener("click", ()=>{
 
-    popup.style.display="none"; //cahcer la fenetre 
+    popup.style.display="none"; //cacher la fenetre 
     textarea.value="";
 
   });
@@ -169,15 +169,12 @@ testMesPostits();
 
 //logout
 const logout=this.document.getElementById("logout");
-    if(!username){
-        logout.style.display="none";
-    }else
-    {    logout.addEventListener("click",async(e)=>{
+     logout.addEventListener("click",async(e)=>{
             e.preventDefault();
             await fetch('/logout', { method: 'POST' });
             sessionStorage.removeItem('username');
             window.location.href = '/login';
             
-        }   );}
+        }  );
 
 });

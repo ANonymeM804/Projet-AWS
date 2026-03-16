@@ -7,9 +7,9 @@ router.use(express.static('public'));
 
 router.get("/mur_postits", function(req,res){
     
-    // if (req.session.user) {
-    //     return res.redirect("/ajouter");
-    // }
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
     return res.sendFile(path.join(__dirname, "../public/html/mur_postits.html"));
 });
 
@@ -24,6 +24,7 @@ router.get("/session-user", function (req, res) {
             username: req.session.user.username
         }
     });
+
 });
 
 module.exports=router; //rendre la route accessible depuis un autre fichier
