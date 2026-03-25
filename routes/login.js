@@ -39,17 +39,28 @@ router.post("/login", async function (req, res) {
         // Création de la session
         req.session.user = {
             id: user.id,
-            username: user.username
+            username: user.username,
+            role: user.role
         };
+        
+
+        //lien de redirection
+        let redirection="/mur_postits";
+
+        if(user.role==='admin'){
+            redirection="/admin";
+
+        }
 
         // Réponse JSON
         return res.json({
             success: true,
             user: {
                 id: user.id,
-                username: user.username
+                username: user.username,
+                role: user.role
             },
-            redirect: "/mur_postits"
+            redirect: redirection
         });
 
     } catch (error) {
