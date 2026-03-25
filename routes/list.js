@@ -36,19 +36,43 @@ router.get("/User_postit_liste", async function (req, res) {
 
     try {
         console.log(" utilisater", req.session.user);
-        const postits = await db("postits")
-        .where("user_id", req.session.user.id)
-        .select(
-                "postits.id",
-                "postits.text",
-                "postits.x",
-                "postits.y",
-                "postits.color",
-                "postits.created_at",
-            )
-        .orderBy("postits.created_at","asc");
+        const role=req.session.user.role;
 
-        res.json(postits);
+        if(role === 'admin'){
+
+            const postits = await db("postits")
+            .join("users", "postits.user_id", "users.id") 
+            .select(
+                    "postits.id",
+                    "postits.text",
+                    "postits.x",
+                    "postits.y",
+                    "postits.color",
+                    "postits.created_at",
+                    "users.username as creator_name",
+                )
+            .orderBy("postits.created_at","asc");
+            res.json(postits);
+
+        }else{
+
+            const postits = await db("postits")
+            .where("user_id", req.session.user.id)
+            .join("users", "postits.user_id", req.session.user.id )
+            .select(
+                    "postits.id",
+                    "postits.text",
+                    "postits.x",
+                    "postits.y",
+                    "postits.color",
+                    "postits.created_at",
+                    "users.username as creator_name",
+                )
+            .orderBy("postits.created_at","asc");
+
+            res.json(postits);
+
+        }
     } catch (error) {
         console.error("Erreur liste post-its :", error.message);
         res.status(500).json({ error: "Erreur serveur" });

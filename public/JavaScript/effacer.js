@@ -9,6 +9,13 @@ async function chargerUtilisateur() {
 
         if (data && data.user && data.user.username) {
             userInfo.textContent = `Connecté : ${data.user.username}`;
+
+            //masquer le boutton utilisateur
+            const users=document.getElementById("utilisateurs");
+            if(data.user.role !== 'admin'){
+                users.style.display="none";
+            }
+
         } else {
             userInfo.textContent = "Utilisateur non connecté";
         }
@@ -22,7 +29,6 @@ async function chargerPostits() {
     try {
         const response = await fetch("User_postit_liste");
         const postits = await response.json();
-        const username = sessionStorage.getItem("username");
         mur.textContent= "";
 
         postits.forEach(postit => {
@@ -59,7 +65,7 @@ async function chargerPostits() {
 
             // Ajouter le nom de l'utilisateur
             const userEl = document.createElement("div");
-            userEl.textContent = username;
+            userEl.textContent = postit.creator_name;
             userEl.style.fontSize = "17px";
             userEl.style.color = "#333";
             headerEl.appendChild(userEl);
@@ -164,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
     });
-
     
 
     //logout

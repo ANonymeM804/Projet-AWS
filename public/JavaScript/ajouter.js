@@ -8,6 +8,14 @@ async function chargerUtilisateur() {
 
         if (data && data.user && data.user.username) {
             userInfo.textContent = `Connecté : ${data.user.username}`;
+
+            //masquer le boutton utilisateur
+            const users=document.getElementById("utilisateurs");
+            if(data.user.role !== 'admin'){
+                users.style.display="none";
+            }
+
+            
         } else {
             userInfo.textContent = "Utilisateur non connecté";
         }
@@ -151,21 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
- 
-
-console.log("ajouter.js chargé");
-
-async function testMesPostits() {
-    try {
-        const response = await fetch("/mes-postits");
-        const data = await response.json();
-        console.log("Mes post-its :", data);
-    } catch (error) {
-        console.error("Erreur fetch :", error);
-    }
-}
-
-testMesPostits();
 
 //logout
 const logout=this.document.getElementById("logout");
