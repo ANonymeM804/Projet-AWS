@@ -87,6 +87,65 @@ nav a:hover{
     color: var(--ink);
     overflow-wrap: break-word;
 }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #071536;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.delete-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+.delete-btn:hover {
+    background-color: #c62828;
+}
+
+.badge-admin {
+    background: gold;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+}
 
 
 .postit-text {

@@ -1,19 +1,42 @@
 const mur = document.getElementById("mur");
 const userInfo = document.getElementById("user-info");
+const usersLink = document.getElementById("utilisateurs");
+const logoutBtn = document.getElementById("logout");
 
+let currentUser = null;
+
+// Charger l'utilisateur connecté
 async function chargerUtilisateur() {
     try {
-        const response = await fetch("/session-user");
+        const response = await fetch("/session-user", {
+            credentials: "include"
+        });
+
         const data = await response.json();
 
-        if (data && data.user && data.user.username) {
-            userInfo.textContent = `Connecté : ${data.user.username}`;
+        console.log("SESSION USER =", data);
+
+        if (data && data.username) {
+            currentUser = data;
+            userInfo.textContent = `Connecté : ${data.username}`;
+
+            if (usersLink && data.role !== "admin") {
+                usersLink.style.display = "none";
+            }
         } else {
             userInfo.textContent = "Utilisateur non connecté";
+
+            if (usersLink) {
+                usersLink.style.display = "none";
+            }
         }
     } catch (error) {
         console.error("Erreur utilisateur :", error);
         userInfo.textContent = "Erreur utilisateur";
+
+        if (usersLink) {
+            usersLink.style.display = "none";
+        }
     }
 }
 

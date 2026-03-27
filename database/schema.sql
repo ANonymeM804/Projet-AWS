@@ -8,6 +8,9 @@ CREATE TABLE users (
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
     role TEXT DEFAULT 'user',
+    can_create INTEGER DEFAULT 1,
+    can_edit INTEGER DEFAULT 1,
+    can_delete INTEGER DEFAULT 1,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
