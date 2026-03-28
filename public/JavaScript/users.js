@@ -1,7 +1,7 @@
 const mur = document.getElementById("mur");
 const tableBody = document.getElementById("users-table-body");
 
-
+// Charger les post-its depuis le serveur
 async function chargerUtilisateurs() {
     try {
         const response = await fetch("/admin/users-data", { credentials: "include" } );
@@ -11,7 +11,7 @@ async function chargerUtilisateurs() {
 
         users.forEach(user => {
             const row = document.createElement("tr");
-
+            // Ajouter les données de l'utilisateur à la ligne
             row.innerHTML = `
                 
                 <td>${user.id}</td>
@@ -35,7 +35,7 @@ async function chargerUtilisateurs() {
                         <button class="delete-btn">🗑 Supprimer</button>
                     </div>
                 </td>
-            `;
+            `;// Afficher les droits de l'utilisateur et son rôle, avec une indication visuelle pour les admins
 
             // Protéger les comptes admin contre la suppression et la modification de droits
             if (user.role === "admin") {

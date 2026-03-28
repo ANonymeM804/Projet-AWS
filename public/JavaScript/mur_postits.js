@@ -3,7 +3,40 @@ const userInfo = document.getElementById("user-info");
 const usersLink = document.getElementById("utilisateurs");
 const logoutBtn = document.getElementById("logout");
 
-let currentUser = null;
+// Afficher les alertes d'erreur basées sur les paramètres d'URL
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get("error");
+
+    if (error === "create_denied") {
+        alert("Création interdite, contactez votre administrateur");
+    }
+
+    if (error === "edit_denied") {
+        alert("Modification interdite, contactez votre administrateur");
+    }
+
+    if (error === "delete_denied") {
+        alert("Suppression interdite, contactez votre administrateur");
+    }
+});
+// Fonction pour afficher une alerte personnalisée
+function showAlert(message) {
+    const box = document.getElementById("alertBox");
+    if (!box) return;
+
+    box.textContent = message;
+    box.classList.remove("hidden");//
+
+    // disparaît après 3 secondes
+    setTimeout(() => {
+        box.classList.add("hidden");
+    }, 3000);
+}
+
+
+
+let currentUser = null;// Variable globale pour stocker les informations de l'utilisateur connecté
 
 // Charger l'utilisateur connecté
 async function chargerUtilisateur() {
@@ -18,7 +51,13 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.textContent = `Connecté : ${data.username}`;
+            userInfo.innerHTML = `
+                <div class="user-box">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-name">${data.username}</div>
+                </div>
+            `;
+                        //userInfo.textContent = `Connecté : ${data.username}`;
 
             // ICI : cacher le lien si pas admin
             if (usersLink && data.role !== "admin") {

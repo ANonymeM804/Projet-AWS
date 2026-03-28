@@ -3,7 +3,7 @@ const userInfo = document.getElementById("user-info");
 const usersLink = document.getElementById("utilisateurs");
 const logoutBtn = document.getElementById("logout");
 
-let currentUser = null;
+let currentUser = null;// Variable globale pour stocker les informations de l'utilisateur connecté
 
 // Charger l'utilisateur connecté
 async function chargerUtilisateur() {
@@ -18,7 +18,13 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.textContent = `Connecté : ${data.username}`;
+            userInfo.innerHTML = `
+            <div class="user-box">
+                <div class="user-avatar">👤</div>
+                <div class="user-name">${data.username}</div>
+            </div>
+`;
+            
 
             if (usersLink && data.role !== "admin") {
                 usersLink.style.display = "none";

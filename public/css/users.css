@@ -194,3 +194,17 @@ footer a {
 footer a:hover { 
     color: var(--ink);
     }
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    font-size: 22px;
+}
+
+.user-name {
+    color: white;
+    font-weight: bold;
+}

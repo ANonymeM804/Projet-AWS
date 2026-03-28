@@ -12,6 +12,16 @@ router.get("/modifier", function (req, res) {
     if (!req.session.user) {
         return res.redirect("/login");
     }
+    
+    // Vérifier les droits d'édition
+    const isAdmin = req.session.user.role === "admin";
+    const canEdit = req.session.user.can_edit === 1 || req.session.user.can_edit === true;
+
+    // Seul l'admin ou le propriétaire du post-it avec les droits d'édition peuvent accéder à cette page
+    if (!isAdmin && !canEdit) {
+        return res.redirect("/mur_postits?error=edit_denied");
+    }
+
 
     return res.sendFile(path.join(__dirname, "../public/html/modifier.html"));
 });
@@ -46,7 +56,7 @@ router.post("/modifier", async function (req, res) {
         const canEdit = req.session.user.can_edit === 1 || req.session.user.can_edit === true;
 
         if (!isAdmin && !(isOwner && canEdit)) {
-            return res.status(403).json({ error: "Modification interdite contactez votre administrateur" });
+            return res.redirect("/mur_postits?error=edit_denied");
         }
 
         await db("postits")

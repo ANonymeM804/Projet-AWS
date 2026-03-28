@@ -16,6 +16,15 @@ router.get("/effacer", function (req, res) {
     if (!req.session.user) {
         return res.redirect("/login");
     }
+    
+    // Vérifier les droits de suppression
+    const isAdmin = req.session.user.role === "admin";
+    const canDelete = req.session.user.can_delete === 1 || req.session.user.can_delete === true;
+
+    // Seul l'admin ou le propriétaire du post-it avec les droits de suppression peuvent accéder à cette page
+    if (!isAdmin && !canDelete) {
+        return res.redirect("/mur_postits?error=delete_denied");
+    }
 
     return res.sendFile(path.join(__dirname, "../public/html/effacer.html"));
 });
@@ -46,7 +55,7 @@ router.post("/effacer", async function (req, res) {
         const canDelete = req.session.user.can_delete === 1 || req.session.user.can_delete === true;
 
         if (!isAdmin && !(isOwner && canDelete)) {
-            return res.status(403).json({ error: "Suppression interdite" });
+            return res.redirect("/mur_postits?error=delete_denied");
         }
 
         await db("postits")

@@ -9,10 +9,11 @@ const db = require("../database/knex");
 // Middleware pour vérifier les droits d'administration
 function requireAdmin(req, res, next) {
 
-     console.log("ADMIN CHECK =", req.session.user);
+     console.log("ADMIN CHECK =", req.session.user);// Debug : afficher les informations de session pour vérifier les droits
    if (!req.session.user ){
        return res.redirect("/login");
    }
+   // Vérifier si l'utilisateur a le rôle d'admin
    if (req.session.user.role !== 'admin') {
        return res.status(403).json({ error: "Accès refusé" });
    }
@@ -83,6 +84,7 @@ router.post("/admin/users/:id/rights", requireAdmin, async function (req, res) {
 router.post("/admin/users/:id/delete", requireAdmin, async function (req, res) {
     const userId = req.params.id;
 
+    
     try {
         const userToDelete = await db("users")
             .where({ id: userId })

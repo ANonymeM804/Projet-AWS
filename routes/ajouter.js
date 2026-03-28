@@ -12,8 +12,9 @@ router.get("/ajouter", function (req, res) {
     const isAdmin = req.session.user.role === "admin";
     const canCreate = req.session.user.can_create === 1 || req.session.user.can_create === true;
 
+    // Seul l'admin ou le propriétaire du post-it avec les droits de création peuvent accéder à cette page
     if (!isAdmin && !canCreate) {
-        return res.status(403).json({ error: "Création interdite Contacter votre administrateur" });
+        return res.redirect("/mur_postits?error=create_denied");
     }
 
     return res.sendFile(path.join(__dirname, "../public/html/ajouter.html"));
@@ -58,7 +59,7 @@ router.post("/ajouter", async function (req, res) {
     const canCreate = req.session.user.can_create === 1 || req.session.user.can_create === true;
 
     if (!isAdmin && !canCreate) {
-        return res.status(403).json({ error: "Création interdite" });
+        return res.redirect("/mur_postits?error=create_denied");
     }
 
     const { text, x, y, color } = req.body;
