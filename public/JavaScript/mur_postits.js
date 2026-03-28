@@ -161,9 +161,9 @@ async function chargerPostits() {
 
                 if (canShowEdit) {
                     const editBtn = document.createElement("button");
-                    editBtn.textContent = "Modifier";
-                    editBtn.style.background = "#4CAF50";
-                    editBtn.style.color = "white";
+                    //editBtn.textContent = "Modifier";
+                    //editBtn.style.background = "#4CAF50";
+                    //editBtn.style.color = "white";
                     editBtn.style.border = "none";
                     editBtn.style.padding = "6px 10px";
                     editBtn.style.cursor = "pointer";
@@ -208,9 +208,9 @@ async function chargerPostits() {
 
                 if (canShowDelete) {
                     const deleteBtn = document.createElement("button");
-                    deleteBtn.textContent = "Supprimer";
-                    deleteBtn.style.background = "#d62828";
-                    deleteBtn.style.color = "white";
+                    //deleteBtn.textContent = "Supprimer";
+                    //deleteBtn.style.background = "#d62828";
+                    //deleteBtn.style.color = "white";
                     deleteBtn.style.border = "none";
                     deleteBtn.style.padding = "6px 10px";
                     deleteBtn.style.cursor = "pointer";
