@@ -26,6 +26,7 @@ CREATE TABLE postits (
     modified INTEGER DEFAULT 0,
     modified_by TEXT,
     modified_at DATETIME,
+    zindex INTEGER DEFAULT 1,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
