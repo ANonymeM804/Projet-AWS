@@ -148,8 +148,14 @@ document.addEventListener("DOMContentLoaded", () => {
      const rect = mur.getBoundingClientRect(); //retourne la position
 
     //recuperation des position dans le mur et non pas dans l'ecran
-      x=event.clientX -rect.left;
-      y=event.clientY -rect.top;
+      x=event.clientX -rect.left -255;
+      y=event.clientY -rect.top -255;
+        
+
+        // Limiter pour rester dans le mur
+        x = Math.max(0, Math.min(x, mur.clientWidth - 255));
+        y = Math.max(0, Math.min(y, mur.clientHeight - 255));
+        
 
       popup.style.display="flex"; //afficher le pop
       textarea.focus();  //mettre le curseur dans le champs de texte
