@@ -92,7 +92,13 @@ async function chargerPostits() {
             const dateEl = document.createElement("div");
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
-            dateEl.textContent = postit.created_at;
+            
+            if(postit.modified === 1) {
+                if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
+                else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
+            }
+            else {dateEl.textContent = postit.created_at;}
+
             dateEl.style.fontSize = "17px";
             dateEl.style.color = "#555";
             dateEl.style.margin="10px";
@@ -114,7 +120,7 @@ async function initialiserMur() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-    
+
     await initialiserMur();
 
     if (logoutBtn) {

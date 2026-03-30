@@ -42,7 +42,7 @@ async function chargerUtilisateur() {
 
 async function chargerPostits() {
     try {
-        const response = await fetch("User_postit_liste");
+        const response = await fetch("/User_postit_liste");
         const postits = await response.json();
 
         mur.textContent= "";
@@ -52,7 +52,11 @@ async function chargerPostits() {
             //div postit
             const postitEl = document.createElement("div");
 
+            console.log(postit);
+
             postitEl.dataset.id = postit.id;
+            postitEl.dataset.text=postit.text;
+            postitEl.dataset.color=postit.color;
 
             postitEl.style.display = "flex";
             postitEl.style.flexDirection = "column";
@@ -81,7 +85,7 @@ async function chargerPostits() {
 
             // Ajouter le nom de l'utilisateur
             const userEl = document.createElement("div");
-            userEl.textContent = postit.creator_name;
+            userEl.textContent = postit.username;
             userEl.style.fontSize = "17px";
             userEl.style.color = "#333";
             headerEl.appendChild(userEl);
@@ -97,11 +101,11 @@ async function chargerPostits() {
             modifEl.style.marginBottom="2px";
             modifEl.style.fontSize="16px";
             headerEl.appendChild(modifEl);
-
             postitEl.appendChild(headerEl);
 
             // Ajouter le texte du post-it
             const texteEl = document.createElement("div");
+            texteEl.className=""
             texteEl.textContent = postit.text;
             texteEl.style.fontWeight = "bold";
             texteEl.style.fontSize = "27px";
@@ -117,7 +121,13 @@ async function chargerPostits() {
             const dateEl = document.createElement("div");
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
-            dateEl.textContent = postit.created_at;
+
+            if(postit.modified === 1) {
+                if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
+                else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
+            }
+            else {dateEl.textContent = postit.created_at;}
+            
             dateEl.style.fontSize = "17px";
             dateEl.style.color = "#555";
             dateEl.style.margin="10px";
@@ -145,45 +155,64 @@ document.addEventListener("DOMContentLoaded", () => {
     //controle des bouttons de chaque postit
 
     const mur = document.getElementById("mur");
+    const textarea = document.getElementById("postit-text");
+    let postit_id="";
+    let couleur = "#FFE566";
 
     mur.addEventListener("click", (event) => {
         if (event.target.classList.contains("modifier-img")) {
 
-            const popup = document.getElementById("popup-modifier");
+            const popup = document.getElementById("popup-postit");
             const postit = event.target.closest(".postit");
 
+            //recuperer la couleur du postit
+            couleur=postit.dataset.color;
+
+            //recuperer le text du postit dans le champs de text
+            textarea.value=postit.dataset.text;
+
             //recuperer l'id du postit
-            const postit_id= postit.dataset.id;
+            postit_id= postit.dataset.id;
             popup.style.display = "flex";
 
-            //annuler la suppression
+            //annuler la modification
             document.getElementById("annuler").addEventListener("click", ()=>{
-            popup.style.display="none"; //cacher la fenetre 
+                popup.style.display="none"; //cacher la fenetre 
             });
+
+            //recuperer les couleurs 
+            document.querySelectorAll(".color").forEach(c => { 
+                c.addEventListener("click", ()=>{ //si un click est survenu sur une des couleurs dans c'est elle qui est choisie
+                    couleur = c.dataset.color;
+                });
+            });
+
+    
 
             //confirmer la modification
-            document.getElementById("modifier").addEventListener("click", ()=>{
+            document.getElementById("coller").addEventListener("click", ()=>{
+
+                const texte = textarea.value;
 
                 //envoyer le postit au serveur
-                    fetch("/modifier",{
-                        method: "POST",
-                        headers: {"Content-Type": "application/json"},
-                        body:JSON.stringify({id: postit_id})
-                        }) 
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log("Post-it modifie");
-                            popup.style.display = "none";
-                            window.location.href = "/mur_postits";
-                        
-                        })
-                        .catch(err => console.error("Erreur modification post-it :", err));
+                fetch("/modifier",{
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body:JSON.stringify({id: postit_id, text: texte, color: couleur, modified_by: currentUser.username}) 
+                    }) 
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log("Post-it modifié");
+                        window.location.href = "/mur_postits";
+                    
+                    })
+                    .catch(err => console.error("Erreur modification post-it :", err));
                         
 
             });
 
 
-        }
+      }
     });
 
     
@@ -200,4 +229,3 @@ document.addEventListener("DOMContentLoaded", () => {
     
 
  });
-

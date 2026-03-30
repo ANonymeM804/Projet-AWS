@@ -28,49 +28,36 @@ router.get("/modifier", function (req, res) {
 
 // Modifier un post-it
 router.post("/modifier", async function (req, res) {
+
     if (!req.session.user) {
         return res.status(401).json({ error: "Utilisateur non connecté" });
     }
 
-    const { id, text, color } = req.body;
-
-    if (!id) {
-        return res.status(400).json({ error: "ID du post-it manquant" });
-    }
+    const {id,text,color,modified_by}= req.body;
 
     if (!text || !text.trim()) {
         return res.status(400).json({ error: "Texte invalide" });
     }
 
-    try {
-        const postit = await db("postits")
-            .where({ id: id })
-            .first();
+     try{
+        const result = await db("postits").update({
+        text: text,
+        color: color,
+        modified: 1,
+        modified_by: modified_by,
+        modified_at: db.fn.now()
+        }).where({id:id});
 
-        if (!postit) {
-            return res.status(404).json({ error: "Post-it introuvable" });
-        }
+        return res.json({ success: true, id: result[0]});
+        
+    } 
+    catch (error) {
 
-        const isAdmin = req.session.user.role === "admin";
-        const isOwner = postit.user_id === req.session.user.id;
-        const canEdit = req.session.user.can_edit === 1 || req.session.user.can_edit === true;
+        console.error("Erreur base de données :", error.message);
 
-        if (!isAdmin && !(isOwner && canEdit)) {
-            return res.redirect("/mur_postits?error=edit_denied");
-        }
-
-        await db("postits")
-            .where({ id: id })
-            .update({
-                text: text.trim(),
-                color: color || postit.color
-            });
-
-        return res.json({ success: true });
-
-    } catch (error) {
-        console.error("Erreur modification post-it :", error.message);
-        return res.status(500).json({ error: "Erreur serveur" });
+        return res.status(500).json({
+            error: "Erreur base de données"
+        });
     }
 });
 

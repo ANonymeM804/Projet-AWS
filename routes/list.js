@@ -17,7 +17,10 @@ router.get("/liste", async function (req, res) {
                 "postits.y",
                 "postits.color",
                 "postits.created_at",
-                "users.username"
+                "users.username",
+                "postits.modified",
+                "postits.modified_at",
+                "postits.modified_by"
             )
             .orderBy("postits.created_at", "asc");
 
@@ -35,7 +38,6 @@ router.get("/User_postit_liste", async function (req, res) {
     }
 
     try {
-        console.log(" utilisater", req.session.user);
         const role=req.session.user.role;
 
         if(role === 'admin'){
@@ -49,7 +51,10 @@ router.get("/User_postit_liste", async function (req, res) {
                     "postits.y",
                     "postits.color",
                     "postits.created_at",
-                    "users.username as creator_name",
+                    "users.username",
+                    "postits.modified",
+                    "postits.modified_at",
+                    "postits.modified_by"
                 )
             .orderBy("postits.created_at","asc");
             res.json(postits);
@@ -57,8 +62,8 @@ router.get("/User_postit_liste", async function (req, res) {
         }else{
 
             const postits = await db("postits")
+            .join("users", "postits.user_id","users.id")
             .where("user_id", req.session.user.id)
-            .join("users", "postits.user_id", req.session.user.id )
             .select(
                     "postits.id",
                     "postits.text",
@@ -66,7 +71,11 @@ router.get("/User_postit_liste", async function (req, res) {
                     "postits.y",
                     "postits.color",
                     "postits.created_at",
-                    "users.username as creator_name",
+                    "users.username",
+                    "postits.modified",
+                    "postits.modified_at",
+                    "postits.modified_by"
+
                 )
             .orderBy("postits.created_at","asc");
 

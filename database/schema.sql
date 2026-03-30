@@ -25,7 +25,7 @@ CREATE TABLE postits (
     user_id INTEGER NOT NULL,
     modified INTEGER DEFAULT 0,
     modified_by TEXT,
-    modified_ad DATETIME,
+    modified_at DATETIME,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 

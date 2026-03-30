@@ -133,10 +133,7 @@ async function chargerUtilisateurs() {
 }
 
 chargerUtilisateurs();
-
-
-
-initialiserMur();
+//initialiserMur();
 
 //controle des bouttons
 document.addEventListener("DOMContentLoaded", () => {

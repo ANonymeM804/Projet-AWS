@@ -20,35 +20,6 @@ router.get("/ajouter", function (req, res) {
     return res.sendFile(path.join(__dirname, "../public/html/ajouter.html"));
 });
 
-// Récupérer uniquement les post-its de l'utilisateur connecté
-router.get("/mes-postits", async function (req, res) {
-    if (!req.session.user) {
-        return res.status(401).json({ error: "Utilisateur non connecté" });
-    }
-
-    try {
-        const postits = await db("postits")
-            .join("users", "postits.user_id", "users.id")
-            .select(
-                "postits.id",
-                "postits.text",
-                "postits.x",
-                "postits.y",
-                "postits.color",
-                "postits.created_at",
-                "postits.user_id",
-                "users.username"
-            )
-            .where("postits.user_id", req.session.user.id)
-            .orderBy("postits.created_at", "asc");
-
-        return res.json(postits);
-    } catch (error) {
-        console.error("Erreur récupération mes post-its :", error.message);
-        return res.status(500).json({ error: "Erreur serveur" });
-    }
-});
-
 // Ajouter un post-it
 router.post("/ajouter", async function (req, res) {
     if (!req.session.user) {

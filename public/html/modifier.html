@@ -22,11 +22,39 @@
     
     <div class="mur" id="mur" ></div>
 
-    <div id="popup-modifier" class="popup">
+    <div id="popup-postit" class="popup">
       <div class="contenu_postit">
-        <label>Etes vous sur de vouloir modifier le post-it ?</label>
+
+        <h2>Modification post-it</h2>
+
+        <label>MESSAGE</label>
+        <textarea id="postit-text" maxlength="80" placeholder="Écris quelque chose..."></textarea>
+
+        <label>COULEUR</label>
+        <div class="colors">
+          <span class="color" data-color="#FFE566" style="background:#FFE566"></span>
+          <span class="color" data-color="#FF8FAB" style="background:#FF8FAB"></span>
+          <span class="color" data-color="#A8EDCA" style="background:#A8EDCA"></span>
+          <span class="color" data-color="#A0C4FF" style="background:#A0C4FF"></span>
+          <span class="color" data-color="#FFAB5E" style="background:#FFAB5E"></span>
+          <span class="color" data-color="#C9AAFF" style="background:#C9AAFF"></span>
+          <span class="color" data-color="#FF6B6B" style="background:#FF6B6B"></span>
+          <span class="color" data-color="#FFFFFF" style="background:#FFFFFF"></span>
+        </div>
+
         <div class="buttons">
           <button id="annuler">Annuler</button>
+          <button id="coller">Coller !</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="popup-modifier" class="popup">
+      <div class="contenu_postit2">
+        <label>Etes vous sur de vouloir modifier le post-it ?</label>
+        <div class="buttons">
+          <button id="annuler2">Annuler</button>
           <button id="modifier">Modifier!</button>
         </div>
         </div>

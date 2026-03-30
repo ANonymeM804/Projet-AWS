@@ -45,7 +45,7 @@ async function chargerUtilisateur() {
 // Charger les post-its
 async function chargerPostits() {
     try {
-        const response = await fetch("User_postit_liste");
+        const response = await fetch("/User_postit_liste");
         const postits = await response.json();
         mur.textContent= "";
 
@@ -83,7 +83,7 @@ async function chargerPostits() {
 
             // Ajouter le nom de l'utilisateur
             const userEl = document.createElement("div");
-            userEl.textContent = postit.creator_name;
+            userEl.textContent = postit.username;
             userEl.style.fontSize = "17px";
             userEl.style.color = "#333";
             headerEl.appendChild(userEl);
@@ -119,7 +119,13 @@ async function chargerPostits() {
             const dateEl = document.createElement("div");
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
-            dateEl.textContent = postit.created_at;
+            
+            if(postit.modified === 1) {
+                if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
+                else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
+            }
+            else {dateEl.textContent = postit.created_at;}
+
             dateEl.style.fontSize = "17px";
             dateEl.style.color = "#555";
             dateEl.style.margin="10px";
