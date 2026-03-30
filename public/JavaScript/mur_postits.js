@@ -51,13 +51,7 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.innerHTML = `
-                <div class="user-box">
-                    <div class="user-avatar">👤</div>
-                    <div class="user-name">${data.username}</div>
-                </div>
-            `;
-                        //userInfo.textContent = `Connecté : ${data.username}`;
+            userInfo.textContent = `👤 Connecté : ${data.username}`;
 
             // ICI : cacher le lien si pas admin
             if (usersLink && data.role !== "admin") {

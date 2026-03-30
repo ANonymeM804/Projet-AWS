@@ -18,12 +18,7 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.innerHTML = `
-            <div class="user-box">
-                <div class="user-avatar">👤</div>
-                <div class="user-name">${data.username}</div>
-            </div>
-`;
+            userInfo.textContent = `👤 Connecté : ${data.username}`;
             
 
             if (usersLink && data.role !== "admin") {
@@ -119,6 +114,7 @@ async function initialiserMur() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+    
     await initialiserMur();
 
     if (logoutBtn) {

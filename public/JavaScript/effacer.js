@@ -20,13 +20,7 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.innerHTML = `
-                <div class="user-box">
-                    <div class="user-avatar">👤</div>
-                    <div class="user-name">${data.username}</div>
-                </div>
-            `;
-            //userInfo.textContent = `Connecté : ${data.username}`;
+            userInfo.textContent = `👤 Connecté : ${data.username}`;
 
             if (usersLink && data.role !== "admin") {
                 usersLink.style.display = "none";
@@ -145,14 +139,13 @@ async function initialiserMur() {
     await chargerUtilisateur();
     await chargerPostits();
 }
-
+//initialiser mur postits
 initialiserMur();
 
 
 document.addEventListener("DOMContentLoaded", () => {
 
     //controle des bouttons de chaque postit
-
     const mur = document.getElementById("mur");
 
     mur.addEventListener("click", (event) => {

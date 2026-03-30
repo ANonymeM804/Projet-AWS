@@ -3,7 +3,8 @@ const userInfo = document.getElementById("user-info");
 const usersLink = document.getElementById("utilisateurs");
 const logoutBtn = document.getElementById("logout");
 
-let currentUser = null;
+
+let currentUser = null;// Variable globale pour stocker les informations de l'utilisateur connecté
 
 // Charger l'utilisateur connecté
 async function chargerUtilisateur() {
@@ -18,11 +19,13 @@ async function chargerUtilisateur() {
 
         if (data && data.username) {
             currentUser = data;
-            userInfo.textContent = `Connecté : ${data.username}`;
+            userInfo.textContent = `👤 Connecté : ${data.username}`;
 
+            // ICI : cacher le lien si pas admin
             if (usersLink && data.role !== "admin") {
                 usersLink.style.display = "none";
             }
+
         } else {
             userInfo.textContent = "Utilisateur non connecté";
 
@@ -30,6 +33,7 @@ async function chargerUtilisateur() {
                 usersLink.style.display = "none";
             }
         }
+
     } catch (error) {
         console.error("Erreur utilisateur :", error);
         userInfo.textContent = "Erreur utilisateur";
@@ -40,10 +44,13 @@ async function chargerUtilisateur() {
     }
 }
 
+// Charger tous les post-its
 async function chargerPostits() {
     try {
         const response = await fetch("/liste");
         const postits = await response.json();
+
+        console.log(postits);
 
         mur.textContent= "";
 
@@ -110,5 +117,4 @@ async function initialiserMur() {
     await chargerUtilisateur();
     await chargerPostits();
 }
-
 initialiserMur();

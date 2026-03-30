@@ -34,32 +34,4 @@ router.get("/session-user", function (req, res) {
     });
 });
 
-// Route pour récupérer tous les post-its (pour le mur global)
-router.get("/liste", async function (req, res) {
-    if (!req.session.user) {
-        return res.status(401).json({ error: "Utilisateur non connecté" });
-    }
-
-    try {
-        const postits = await db("postits")
-            .join("users", "postits.user_id", "users.id")
-            .select(
-                "postits.id",
-                "postits.text",
-                "postits.x",
-                "postits.y",
-                "postits.color",
-                "postits.created_at",
-                "postits.user_id",
-                "users.username"
-            )
-            .orderBy("postits.created_at", "asc");
-
-        return res.json(postits);
-    } catch (error) {
-        console.error("Erreur liste post-its :", error.message);
-        return res.status(500).json({ error: "Erreur serveur" });
-    }
-});
-
 module.exports=router; //rendre la route accessible depuis un autre fichier
