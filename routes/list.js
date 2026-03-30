@@ -20,7 +20,8 @@ router.get("/liste", async function (req, res) {
                 "users.username",
                 "postits.modified",
                 "postits.modified_at",
-                "postits.modified_by"
+                "postits.modified_by",
+                "postits.zindex"
             )
             .orderBy("postits.created_at", "asc");
 
@@ -54,7 +55,8 @@ router.get("/User_postit_liste", async function (req, res) {
                     "users.username",
                     "postits.modified",
                     "postits.modified_at",
-                    "postits.modified_by"
+                    "postits.modified_by",
+                    "postits.zindex"
                 )
             .orderBy("postits.created_at","asc");
             res.json(postits);
@@ -74,7 +76,8 @@ router.get("/User_postit_liste", async function (req, res) {
                     "users.username",
                     "postits.modified",
                     "postits.modified_at",
-                    "postits.modified_by"
+                    "postits.modified_by",
+                    "postits.zindex"
 
                 )
             .orderBy("postits.created_at","asc");

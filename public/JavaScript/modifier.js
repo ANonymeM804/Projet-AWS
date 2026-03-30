@@ -59,6 +59,7 @@ async function chargerPostits() {
             postitEl.dataset.y = postit.y;
             postitEl.dataset.text=postit.text;
             postitEl.dataset.color=postit.color;
+            postitEl.dataset.zindex= postit.zindex;
 
             postitEl.style.display = "flex";
             postitEl.style.flexDirection = "column";
@@ -70,7 +71,7 @@ async function chargerPostits() {
             postitEl.style.height="250px";
             postitEl.style.width="250px";
             postitEl.style.position="absolute";
-            postitEl.style.zIndex="1";
+            postitEl.style.zIndex=postit.zindex;
             postitEl.style.border="1px solid #000";
             postitEl.style.boxShadow="0 6px 8px rgba(0, 0, 0, 0.6)";
 
@@ -227,6 +228,8 @@ document.addEventListener("DOMContentLoaded", () => {
         //recuperer la position actuelle du postit
         const x=parseInt(postit.dataset.x);
         const y=parseInt(postit.dataset.y);
+
+        postit.style.zIndex= postit.dataset.zindex +1; 
 
 
         //nouvelle position du postit

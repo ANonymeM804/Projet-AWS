@@ -68,9 +68,13 @@ router.post("/deplacement", async function (req, res) {
     const {id,x,y}= req.body;
 
      try{
+        const [max_zindex]= await db("postits").max("zindex as max_zindex");
+        const zindex = (max_zindex.max_zindex || 1000) + 1;
+
         const result = await db("postits").update({
         x: x,
         y: y,
+        zindex : zindex
         }).where({id:id});
 
         return res.json({ success: true, id: result[0]});
