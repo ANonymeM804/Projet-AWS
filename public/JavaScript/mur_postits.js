@@ -227,16 +227,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 
 
-    // logout
-    const logout = document.getElementById("logout");
-    if (logout) {
-        logout.addEventListener("click", async (e) => {
+    //logout
+    const logout=this.document.getElementById("logout");
+     logout.addEventListener("click",async(e)=>{
             e.preventDefault();
-
-            await fetch('/logout');
-
+            await fetch('/logout', { method: 'POST' });
+            sessionStorage.removeItem('username');
             window.location.href = '/login';
-        });
-    }
+            
+        }  );
 
 });
