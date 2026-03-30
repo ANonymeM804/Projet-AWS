@@ -9,7 +9,7 @@ const db = require("../database/knex");
 // Middleware pour vérifier les droits d'administration
 function requireAdmin(req, res, next) {
 
-     console.log("ADMIN CHECK =", req.session.user);// Debug : afficher les informations de session pour vérifier les droits
+    //console.log("ADMIN CHECK =", req.session.user);// Debug : afficher les informations de session pour vérifier les droits
    if (!req.session.user ){
        return res.redirect("/login");
    }

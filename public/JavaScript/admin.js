@@ -14,7 +14,7 @@ async function chargerUtilisateur() {
 
         const data = await response.json();
 
-        console.log("SESSION USER =", data);
+        // console.log("SESSION USER =", data);
 
         if (data && data.username) {
             currentUser = data;
@@ -51,6 +51,12 @@ async function chargerPostits() {
 
         postits.forEach(postit => {
             const postitEl = document.createElement("div");
+
+            postitEl.dataset.id = postit.id;
+            postitEl.dataset.x = postit.x;
+            postitEl.dataset.y = postit.y;
+
+
             postitEl.style.display = "flex";
             postitEl.style.flexDirection = "column";
             postitEl.style.justifyContent = "space-between"; 
@@ -122,6 +128,68 @@ async function initialiserMur() {
 document.addEventListener("DOMContentLoaded", async () => {
 
     await initialiserMur();
+
+    //deplacer postit
+    const mur= document.getElementById("mur");
+    mur.addEventListener("mousedown", function(elem){
+
+        //seulement si on clique sur un postit
+        const postit=elem.target.closest(".postit");
+        if (!postit) return; //si on appuit sur un elem qui n'est pas postit
+
+        //recuperer la position actuelle du postit
+        const x=parseInt(postit.dataset.x);
+        const y=parseInt(postit.dataset.y);
+
+
+        //nouvelle position du postit
+        let newX, newY;
+
+        //calcul des offsets
+        const offsetX= elem.clientX - x;
+        const offsetY= elem.clientY - y;
+
+        //au deplacement
+        function onMouseMove(elemMov){
+            newX=parseInt(elemMov.clientX )- offsetX;
+            newY=parseInt(elemMov.clientY )- offsetY;
+
+            postit.style.left= newX +"px";
+            postit.style.top= newY +"px";  
+
+            
+        }
+        
+        //au relachement
+        function onMouseUp(){
+            document.removeEventListener("mousemove",onMouseMove);
+            document.removeEventListener("mouseup",onMouseUp);
+            
+            if(newX && newY){
+                //envoyer les nouvelles coordonnées au serveur
+                fetch("/deplacement",{
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
+                        }) 
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log("Post-it deplacé");
+                            window.location.href = "/admin";
+                        
+                        })
+                        .catch(err => console.error("Erreur modification post-it :", err));
+                    }
+                        
+            
+        }
+
+        
+        document.addEventListener("mousemove",onMouseMove);
+        document.addEventListener("mouseup",onMouseUp);
+
+    });
+
 
     if (logoutBtn) {
         logoutBtn.addEventListener("click", async (e) => {

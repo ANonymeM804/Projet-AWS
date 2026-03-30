@@ -61,4 +61,29 @@ router.post("/modifier", async function (req, res) {
     }
 });
 
+// deplacer un post-it
+router.post("/deplacement", async function (req, res) {
+
+
+    const {id,x,y}= req.body;
+
+     try{
+        const result = await db("postits").update({
+        x: x,
+        y: y,
+        }).where({id:id});
+
+        return res.json({ success: true, id: result[0]});
+        
+    } 
+    catch (error) {
+
+        console.error("Erreur base de données :", error.message);
+
+        return res.status(500).json({
+            error: "Erreur base de données"
+        });
+    }
+});
+
 module.exports=router; //rendre la route accessible depuis un autre fichier

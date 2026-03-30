@@ -15,7 +15,7 @@ async function chargerUtilisateur() {
 
         const data = await response.json();
 
-        console.log("SESSION USER =", data);
+        //console.log("SESSION USER =", data);
 
         if (data && data.username) {
             currentUser = data;
