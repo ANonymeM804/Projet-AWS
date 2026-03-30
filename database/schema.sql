@@ -23,6 +23,9 @@ CREATE TABLE postits (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     color TEXT DEFAULT '#FFE566',
     user_id INTEGER NOT NULL,
+    modified INTEGER DEFAULT 0,
+    modified_by TEXT,
+    modified_ad DATETIME,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );
 
