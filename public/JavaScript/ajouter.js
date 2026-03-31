@@ -160,6 +160,32 @@ document.addEventListener("DOMContentLoaded", () => {
       popup.style.display="flex"; //afficher le pop
       textarea.focus();  //mettre le curseur dans le champs de texte
   });
+  
+  //Mobile : appuyer longuement pour faire apparaitre le popup
+    mur.addEventListener("touchstart", function(event){
+        if (event.touches.length === 1) {
+            const touch = event.touches[0];
+            const rect = mur.getBoundingClientRect();
+            
+            x = touch.clientX - rect.left - 255;
+            y = touch.clientY - rect.top - 255;
+            // Limiter pour rester dans le mur
+            x = Math.max(0, Math.min(x, mur.clientWidth - 255));
+            y = Math.max(0, Math.min(y, mur.clientHeight - 255));
+            
+            // Utiliser un timeout pour détecter un appui long
+            const longPressTimeout = setTimeout(() => {
+                popup.style.display = "flex";
+                textarea.focus();
+            }, 500);
+
+            // Annuler le timeout si l'utilisateur relâche avant la fin du délai
+            const cancelLongPress = () => clearTimeout(longPressTimeout);
+            mur.addEventListener("touchend", cancelLongPress, { once: true });
+            mur.addEventListener("touchmove", cancelLongPress, { once: true });
+        }
+    });
+
 
   document.querySelectorAll(".color").forEach(c => { //recuperer les couleurs 
 
