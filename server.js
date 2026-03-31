@@ -52,8 +52,8 @@ app.use(admin);
 
 // Démarrage du serveur HTTPS
 const sslOptions = {
-    key: fs.readFileSync(path.join(__dirname, "certs", "server.key")),
-    cert: fs.readFileSync(path.join(__dirname, "certs", "server.cert"))
+    key: fs.readFileSync(path.join(__dirname, "certs", "server.key")),//lecture de la clé privée
+    cert: fs.readFileSync(path.join(__dirname, "certs", "server.cert"))//lecture du certificat SSL
 };
 https.createServer(sslOptions, app).listen(3001, () => {
     console.log("Serveur HTTPS démarré sur https://localhost:3001");
