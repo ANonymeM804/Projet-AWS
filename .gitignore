@@ -1,3 +1,9 @@
 node_modules
 .env
 database/app.db
+
+#Certificats HTTPS
+certs/
+*.key
+*.cert
+*.pem

@@ -1,7 +1,7 @@
 
-const https = require("https");//https pour le serveur sécurisé
-const fs = require("fs");//fs pour lire les fichiers de certificats SSL
-const path = require("path");//path pour gérer les chemins de fichiers
+//const https = require("https");//https pour le serveur sécurisé
+//const fs = require("fs");//fs pour lire les fichiers de certificats SSL
+//const path = require("path");//path pour gérer les chemins de fichiers
 const express = require("express");//express pour créer le serveur web
 const session = require("express-session");//express-session pour gérer les sessions utilisateur
 const app = express();
@@ -51,10 +51,15 @@ app.use(guest);
 app.use(admin);
 
 // Démarrage du serveur HTTPS
-const sslOptions = {
+/*const sslOptions = {
     key: fs.readFileSync(path.join(__dirname, "certs", "server.key")),//lecture de la clé privée
     cert: fs.readFileSync(path.join(__dirname, "certs", "server.cert"))//lecture du certificat SSL
 };
 https.createServer(sslOptions, app).listen(3001, () => {
     console.log("Serveur HTTPS démarré sur https://localhost:3001");
+});*/
+
+// Démarrage du serveur HTTP
+app.listen(3000, () => {
+    console.log("Serveur HTTP démarré sur http://localhost:3000");
 });
