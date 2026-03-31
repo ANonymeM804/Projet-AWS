@@ -1,7 +1,11 @@
 
-const express = require("express");
-const session = require("express-session");
+const https = require("https");//https pour le serveur sécurisé
+const fs = require("fs");//fs pour lire les fichiers de certificats SSL
+const path = require("path");//path pour gérer les chemins de fichiers
+const express = require("express");//express pour créer le serveur web
+const session = require("express-session");//express-session pour gérer les sessions utilisateur
 const app = express();
+
 
 // Middleware
 app.use(express.json());
@@ -21,7 +25,7 @@ app.use(session({
 
 
 
-// Routes
+// Importation des routes
 const accueil = require("./routes/accueil");
 const mur_postits = require("./routes/mur_postits");
 const signup = require("./routes/signup");
@@ -33,7 +37,7 @@ const modifier = require("./routes/modifier");
 const logout = require("./routes/logout");
 const guest = require("./routes/guest");
 const admin = require("./routes/admin");
-
+// Utilisation des routes
 app.use(accueil);
 app.use(mur_postits);
 app.use(signup);
@@ -46,7 +50,11 @@ app.use(logout);
 app.use(guest);
 app.use(admin);
 
-// Serveur
-app.listen(3000, () => {
-    console.log("Serveur démarré sur http://localhost:3000");
+// Démarrage du serveur HTTPS
+const sslOptions = {
+    key: fs.readFileSync(path.join(__dirname, "certs", "server.key")),
+    cert: fs.readFileSync(path.join(__dirname, "certs", "server.cert"))
+};
+https.createServer(sslOptions, app).listen(3001, () => {
+    console.log("Serveur HTTPS démarré sur https://localhost:3001");
 });
