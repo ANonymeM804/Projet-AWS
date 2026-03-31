@@ -182,6 +182,12 @@ footer a {
 footer a:hover { 
     color: var(--ink);
     }
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
     @media (max-width: 768px) {
   nav {
     flex-direction: column;

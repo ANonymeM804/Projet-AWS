@@ -16,7 +16,7 @@
  
 
       body {
-            background: var(--paper);
+            background: var(--purple);
             font-family: 'DM Sans', sans-serif;
             color: var(--ink);
             overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/
@@ -238,6 +238,11 @@
   footer a:hover { 
       color: var(--ink);
       }
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
 
     @media (max-width: 900px) {
       .page {

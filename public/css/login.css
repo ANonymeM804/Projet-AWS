@@ -228,6 +228,10 @@ footer a:hover {
     color: var(--ink);
     }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
     @media (max-width: 900px) {
       .page {
         grid-template-columns: 1fr;

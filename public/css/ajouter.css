@@ -12,7 +12,7 @@
     }
 
 body {
-      background: var(--paper);
+      background: var(--purple);
       font-family: 'DM Sans', sans-serif;
       color: var(--ink);
       overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/
@@ -224,6 +224,11 @@ h2{
   color:white;
   padding:10px 20px;
 }
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
@@ -249,6 +254,8 @@ h2{
   .mur {
     min-height: 80vh;
     overflow: auto;
+    margin: 30px; 
+    box-sizing: border-box;
   }
 
   .postit {
@@ -289,6 +296,8 @@ h2{
   .mur {
     min-height: 80vh;
     overflow: auto;
+    margin: 30px; 
+    box-sizing: border-box;
   }
 
   .postit {

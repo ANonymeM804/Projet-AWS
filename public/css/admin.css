@@ -12,7 +12,7 @@
     }
 
 body {
-      background: var(--paper);
+      background: var(--purple);
       font-family: 'DM Sans', sans-serif;
       color: var(--ink);
       overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/
@@ -66,7 +66,11 @@ nav a:hover{
     background-color: var(--purple);
     position: relative;
     overflow: hidden;
+    margin: 30px; 
+    box-sizing: border-box;
+
 }
+
 
 
 .user-info {
@@ -149,6 +153,11 @@ footer a:hover {
     color: white;
     font-weight: bold;
 }
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
@@ -174,6 +183,8 @@ footer a:hover {
   .mur {
     min-height: 80vh;
     overflow: auto;
+    margin: 30px; 
+    box-sizing: border-box;
   }
 
   .postit {
@@ -214,6 +225,8 @@ footer a:hover {
   .mur {
     min-height: 80vh;
     overflow: auto;
+    margin: 30px; 
+    box-sizing: border-box;
   }
 
   .postit {
