@@ -40,18 +40,30 @@ router.post("/modifier", async function (req, res) {
     }
 
      try{
-        const result = await db("postits")
-        .where({id:id})
-        .update({
-        text: text,
-        color: color,
-        modified: 1,
-        modified_by: modified_by,
-        modified_at: db.fn.now()
-        }).returning("*");
+
+        //recuperer le postit avant modification
+        const oldPostit = await db("postits")
+        .where({ id })
+        .first();
+
+        const isModified = (oldPostit.text !== text) || (oldPostit.color !== color);
+
+        if(isModified){
+            const result = await db("postits")
+            .where({id:id})
+            .update({
+            text: text,
+            color: color,
+            modified: isModified,
+            modified_by: modified_by,
+            modified_at: db.fn.now()
+            }).returning("*");
+
+        }else {
+            result = [oldPostit];
+        }
 
         return res.json({ success: true, id: result[0]});
-        
     } 
     catch (error) {
 

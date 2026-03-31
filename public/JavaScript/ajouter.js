@@ -145,21 +145,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
      const rect = mur.getBoundingClientRect(); //retourne la largeur et haueur visible du mur
 
-    //recuperation des position dans le mur et non pas dans l'ecran
-      x=event.clientX -rect.left -(250/2);
-      y=event.clientY -rect.top -(250/2);
-        
-
+        //recuperation des position dans le mur et non pas dans l'ecran
+        x=event.clientX -rect.left -(250/2);
+        y=event.clientY -rect.top -(250/2);
+     
         // Limiter pour rester dans le mur
-        // x = Math.max(0, Math.min(x, mur.clientWidth - 250));
-        // y = Math.max(0, Math.min(y, mur.clientHeight -250));
-
-        x = Math.max(0, Math.min(x, mur.scrollHeight - 250));
-        y = Math.max(0, Math.min(y, mur.scrollHeight -250));
+        x = Math.max(0, Math.min(x, mur.clientWidth - 250));
+        y = Math.max(0, Math.min(y, mur.clientHeight -250));
         
     
-      popup.style.display="flex"; //afficher le pop
-      textarea.focus();  //mettre le curseur dans le champs de texte
+        popup.style.display="flex"; //afficher le pop
+        textarea.focus();  //mettre le curseur dans le champs de texte
   });
   
   //Mobile : appuyer longuement pour faire apparaitre le popup
