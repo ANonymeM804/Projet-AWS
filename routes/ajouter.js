@@ -44,13 +44,18 @@ router.post("/ajouter", async function (req, res) {
     }
 
     try {
+
+        const [max_zindex]= await db("postits").max("zindex as max_zindex");
+        const zindex = (max_zindex.max_zindex || 0) + 1;
+
         const result = await db("postits").insert({
             text: text.trim(),
             x: posX,
             y: posY,
             color: color,
-            user_id: user_id
-        });
+            user_id: user_id,
+            zindex: zindex
+        }).returning("*");
 
         return res.json({
             success: true,

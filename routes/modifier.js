@@ -40,13 +40,15 @@ router.post("/modifier", async function (req, res) {
     }
 
      try{
-        const result = await db("postits").update({
+        const result = await db("postits")
+        .where({id:id})
+        .update({
         text: text,
         color: color,
         modified: 1,
         modified_by: modified_by,
         modified_at: db.fn.now()
-        }).where({id:id});
+        }).returning("*");
 
         return res.json({ success: true, id: result[0]});
         
@@ -69,13 +71,15 @@ router.post("/deplacement", async function (req, res) {
 
      try{
         const [max_zindex]= await db("postits").max("zindex as max_zindex");
-        const zindex = (max_zindex.max_zindex || 100);
+        const zindex = (max_zindex.max_zindex || 100) + 1;
 
-        const result = await db("postits").update({
+        const result = await db("postits")
+        .where({id:id})
+        .update({
         x: x,
         y: y,
         zindex : zindex
-        }).where({id:id});
+        }).returning("*");
 
         return res.json({ success: true, id: result[0]});
         

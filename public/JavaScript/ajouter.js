@@ -143,18 +143,21 @@ document.addEventListener("DOMContentLoaded", () => {
   //ecouter lors du double click
   mur.addEventListener("dblclick", function(event){
 
-     const rect = mur.getBoundingClientRect(); //retourne la position
+     const rect = mur.getBoundingClientRect(); //retourne la largeur et haueur visible du mur
 
     //recuperation des position dans le mur et non pas dans l'ecran
-      x=event.clientX -rect.left -255;
-      y=event.clientY -rect.top -255;
+      x=event.clientX -rect.left -(250/2);
+      y=event.clientY -rect.top -(250/2);
         
 
         // Limiter pour rester dans le mur
-        x = Math.max(0, Math.min(x, mur.clientWidth - 255));
-        y = Math.max(0, Math.min(y, mur.clientHeight - 255));
-        
+        // x = Math.max(0, Math.min(x, mur.clientWidth - 250));
+        // y = Math.max(0, Math.min(y, mur.clientHeight -250));
 
+        x = Math.max(0, Math.min(x, mur.scrollHeight - 250));
+        y = Math.max(0, Math.min(y, mur.scrollHeight -250));
+        
+    
       popup.style.display="flex"; //afficher le pop
       textarea.focus();  //mettre le curseur dans le champs de texte
   });
