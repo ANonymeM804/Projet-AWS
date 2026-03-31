@@ -100,11 +100,9 @@ async function chargerPostits() {
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
             
-            if(postit.modified) {
-                if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
-                else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
-            }
-            else {dateEl.textContent = postit.created_at;}
+            if(postit.modified ) {dateEl.textContent = "modifié le : " +new Date(postit.modified_at).toLocaleString() + " par " +  postit.modified_by;}
+            else {dateEl.textContent = new Date(postit.created_at).toLocaleString();}
+
 
             dateEl.style.fontSize = "17px";
             dateEl.style.color = "#555";
