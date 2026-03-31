@@ -52,8 +52,6 @@ async function chargerPostits() {
             //div postit
             const postitEl = document.createElement("div");
 
-            console.log(postit);
-
             postitEl.dataset.id = postit.id;
             postitEl.dataset.x = postit.x;
             postitEl.dataset.y = postit.y;
@@ -125,9 +123,11 @@ async function chargerPostits() {
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
 
-            if(postit.modified === 1) {
+            if(postit.modified) {
                 if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
                 else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
+
+                console.log( postit.modified_by);
             }
             else {dateEl.textContent = postit.created_at;}
             

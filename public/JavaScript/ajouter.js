@@ -100,7 +100,7 @@ async function chargerPostits() {
             dateEl.style.borderTop = "1px solid #555";
             dateEl.style.height="30px";
             
-            if(postit.modified === 1) {
+            if(postit.modified) {
                 if(postit.modified_by === postit.username){dateEl.textContent = "modifié le : " + postit.modified_at }
                 else {dateEl.textContent = "modifié le : " +postit.modified_at + " par " +  postit.modified_by;}
             }
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   //Mobile : appuyer longuement pour faire apparaitre le popup
     mur.addEventListener("touchstart", function(event){
-        if (event.touches.length === 1) {
+        if (event.touches.length ) {
             const touch = event.touches[0];
             const rect = mur.getBoundingClientRect();
             
