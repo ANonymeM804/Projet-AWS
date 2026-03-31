@@ -1,11 +1,10 @@
-const path = require("path");
-
+require('dotenv').config();
 module.exports = {
   development: {
-    client: "sqlite3",
+    client: "pg",
     connection: {
-      filename: path.join(__dirname, "database", "app.db")
-    },
-    useNullAsDefault: true
+      connectionString: process.env.DATABASE_URL,
+      ssl: false  // local, pas besoin de SSL
+    }
   }
 };
