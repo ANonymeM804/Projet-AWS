@@ -1,4 +1,4 @@
---pour sqlite3
+--pour postgreSQL
 -- Suppression des tables si elles existent déjà
 DROP TABLE IF EXISTS postits;
 DROP TABLE IF EXISTS users;
