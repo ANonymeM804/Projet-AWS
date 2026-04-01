@@ -16,7 +16,7 @@
  
 
       body {
-            background: var(--purple);
+            background: var(----paper);
             font-family: 'DM Sans', sans-serif;
             color: var(--ink);
             overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/

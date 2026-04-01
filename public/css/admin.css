@@ -12,7 +12,7 @@
     }
 
 body {
-      background: var(--purple);
+      background: var(--paper);
       font-family: 'DM Sans', sans-serif;
       color: var(--ink);
       overflow-x: hidden; /* tout ce qui dépasse horizontalemment ne sera pas visible*/
@@ -63,11 +63,21 @@ nav a:hover{
 
 .mur {
     min-height: 91vh;
-    background-color: var(--purple);
+    background-color: var(--brown);
     position: relative;
     overflow: hidden;
-    margin: 30px; 
+    margin: 35px; 
     box-sizing: border-box;
+    border: 8px solid var(--brown);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.8); 
+    border-radius: 12px;   
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0.3) 1px,
+        transparent 1px,
+        transparent 4px
+    );
 
 }
 
@@ -183,8 +193,18 @@ html, body {
   .mur {
     min-height: 80vh;
     overflow: auto;
-    margin: 30px; 
+    margin: 35px; 
     box-sizing: border-box;
+    border: 8px solid var(--brown);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.8); 
+    border-radius: 12px;   
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0.3) 1px,
+        transparent 1px,
+        transparent 4px
+    );
   }
 
   .postit {
@@ -225,8 +245,18 @@ html, body {
   .mur {
     min-height: 80vh;
     overflow: auto;
-    margin: 30px; 
+    margin: 35px; 
     box-sizing: border-box;
+    border: 8px solid var(--brown);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.8); 
+    border-radius: 12px;   
+    background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0.3) 1px,
+        transparent 1px,
+        transparent 4px
+    );
   }
 
   .postit {
