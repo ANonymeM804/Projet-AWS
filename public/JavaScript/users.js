@@ -1,5 +1,7 @@
 const mur = document.getElementById("mur");
-const tableBody = document.getElementById("users-table-body");
+ const tableBody = document.getElementById("usersTableBody");
+const template = document.getElementById("userRowTemplate");
+//const tableBody = document.getElementById("users-table-body");
 
 // Charger les post-its depuis le serveur
 async function chargerUtilisateurs() {
@@ -11,8 +13,47 @@ async function chargerUtilisateurs() {
 
         users.forEach(user => {
             const row = document.createElement("tr");
+                
+            tableBody.innerHTML = "";
+
+            users.forEach(user => {
+            const clone = template.content.cloneNode(true);
+
+            clone.querySelector(".id").textContent = user.id;
+            clone.querySelector(".username").textContent = user.username;
+
+            const select = clone.querySelector(".role-select");
+            const saveBtn = clone.querySelector(".save-btn");
+            const deleteBtn = clone.querySelector(".delete-btn");
+            select.value = user.role;
+            if (user.role === "admin") {
+                select.admin = true; }// Marquer les admins pour les protéger}
+            
+            if (user.role === "admin") {
+                select.disabled = true;
+                clone.querySelector(".create-checkbox").disabled = true;
+                clone.querySelector(".edit-checkbox").disabled = true;
+                clone.querySelector(".delete-checkbox").disabled = true;
+                saveBtn.disabled = true;
+                deleteBtn.disabled = true;                
+                
+            }
+
+            clone.querySelector(".create-checkbox").checked = user.can_create;
+            clone.querySelector(".edit-checkbox").checked = user.can_edit;
+            clone.querySelector(".delete-checkbox").checked = user.can_delete;
+
+            clone.querySelector(".created-at").textContent =
+                new Date(user.created_at).toLocaleString("fr-FR");
+
+            tableBody.appendChild(clone);
+            });
+
+
+
+
             // Ajouter les données de l'utilisateur à la ligne
-            row.innerHTML = `
+            /*row.innerHTML = `
                 
                 <td>${user.id}</td>
                 <td>${user.username}</td>
@@ -35,7 +76,8 @@ async function chargerUtilisateurs() {
                         <button class="delete-btn">🗑 Supprimer</button>
                     </div>
                 </td>
-            `;// Afficher les droits de l'utilisateur et son rôle, avec une indication visuelle pour les admins
+            `;*/
+            // Afficher les droits de l'utilisateur et son rôle, avec une indication visuelle pour les admins
 
             // Protéger les comptes admin contre la suppression et la modification de droits
             if (user.role === "admin") {

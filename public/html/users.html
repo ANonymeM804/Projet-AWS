@@ -37,9 +37,37 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="users-table-body">  </tbody>
-      </table>
+        <tbody id="usersTableBody">  
 
+          <template id="userRowTemplate">
+            <tr>
+              <td class="id"></td>
+              <td class="username"></td>
+
+              <td>
+                <select class="role-select">
+                  <option value="user">user</option>
+                  <option value="admin">admin</option>
+                </select>
+              </td>
+
+              <td><input type="checkbox" class="create-checkbox"></td>
+              <td><input type="checkbox" class="edit-checkbox"></td>
+              <td><input type="checkbox" class="delete-checkbox"></td>
+
+              <td class="created-at"></td>
+
+              <td>
+                <div class="actions">
+                  <button class="save-btn">💾 Enregistrer</button>
+                  <button class="delete-btn">🗑 Supprimer</button>
+                </div>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+      </table>
+      
     </div>
     
     
