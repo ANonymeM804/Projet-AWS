@@ -15,6 +15,21 @@ nunjucks.configure(path.join(__dirname, 'views'), {
 });
 
 app.use(helmet());
+
+
+app.use(
+   helmet.contentSecurityPolicy({
+     directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:"], 
+      connectSrc: ["'self'"], // pour fetch/AJAX
+      objectSrc: ["'none'"],
+   }
+  })
+ );
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: "sticko_secret_key",
@@ -23,7 +38,8 @@ app.use(session({
     cookie: {
         secure: false,
         httpOnly: true, // cookie non accessible depuis js
-        maxAge: 1000 * 60 * 60 //garder le cookie 1h si il n'est pas supprimé
+        maxAge: 1000 * 60 * 60, //garder le cookie 1h si il n'est pas supprimé
+        sameSite: 'lax'    // Protège contre CSRF
     }
 }));
 
