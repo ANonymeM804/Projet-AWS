@@ -5,17 +5,22 @@
 const express = require("express");//express pour créer le serveur web
 const session = require("express-session");//express-session pour gérer les sessions utilisateur
 const app = express();
+const helmet = require('helmet');//securite headers, eviter attaque clickjacking
+const csurf = require('csurf'); //jeton
 
 
 // Middleware
+app.use(helmet());
+app.use(csurf());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static('public', { etag: false }));//ne pas reveler les inodes
+app.set('etag', false);
 
 app.use(session({
     secret: "sticko_secret_key",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         secure: false,
         httpOnly: true, // cookie non accessible depuis js
@@ -24,6 +29,8 @@ app.use(session({
 }));
 
 
+
+app.disable('x-powered-by');//ne pas reveler qu'on utilise express
 
 // Importation des routes
 const accueil = require("./routes/accueil");
@@ -37,6 +44,7 @@ const modifier = require("./routes/modifier");
 const logout = require("./routes/logout");
 const guest = require("./routes/guest");
 const admin = require("./routes/admin");
+
 // Utilisation des routes
 app.use(accueil);
 app.use(mur_postits);
