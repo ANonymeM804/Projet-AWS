@@ -25,14 +25,15 @@ router.use(express.static('public'));
 
 // Route pour afficher la page d'administration
 router.get("/admin", requireAdmin, function(req,res){
-    res.sendFile(path.join(__dirname, "../public/html/admin.html"));
+    res.render('admin.njk', { csrfToken: req.csrfToken() });
 });
 
 
 // Route pour afficher la page de gestion des utilisateurs
 router.get("/admin/users", requireAdmin, function(req,res){
 
-    res.sendFile(path.join(__dirname, "../public/html/users.html"));
+    //res.sendFile(path.join(__dirname, "../public/html/users.html"));
+    res.render('users.njk', { csrfToken: req.csrfToken() });
 });
 
 

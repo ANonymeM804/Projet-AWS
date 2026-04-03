@@ -1,5 +1,6 @@
 const tableBody = document.getElementById("usersTableBody");
 const template = document.getElementById("userRowTemplate");
+let csrfToken; 
 
 async function chargerUtilisateurs() {
     try {
@@ -54,9 +55,8 @@ async function chargerUtilisateurs() {
                         const response = await fetch(`/admin/users/${user.id}/rights`, {
                             method: "POST",
                             credentials: "include",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
+                            headers: {'Content-Type': "application/json",
+                                      'CSRF-Token': csrfToken },
                             body: JSON.stringify({
                                 role,
                                 can_create,
@@ -91,7 +91,9 @@ async function chargerUtilisateurs() {
                     try {
                         const response = await fetch(`/admin/users/${user.id}/delete`, {
                             method: "POST",
+                            headers: {'CSRF-Token': csrfToken },
                             credentials: "include"
+
                         });
 
                         const result = await response.json();
@@ -116,9 +118,12 @@ async function chargerUtilisateurs() {
     }
 }
 
-chargerUtilisateurs();
-
 document.addEventListener("DOMContentLoaded", () => {
+    csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
+
+    chargerUtilisateurs();
+
+
     const logout = document.getElementById("logout");
 
     if (logout) {

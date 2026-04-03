@@ -36,7 +36,10 @@
 
         <div id="message" class="message"></div>
 
-        <form id="loginForm">
+        <form id="loginForm" method="POST" action="/login">
+
+        <input type="hidden" name="_csrf" value="{{ csrfToken }}"><!--ajouter token -->
+
           <div class="form-group">
             <label for="username">Nom d'utilisateur</label>
             <input

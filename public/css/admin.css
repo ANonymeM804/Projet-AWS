@@ -192,7 +192,7 @@ html, body {
 
   .mur {
     min-height: 80vh;
-    overflow: auto;
+    overflow: hidden;
     margin: 35px; 
     box-sizing: border-box;
     border: 8px solid var(--brown);
@@ -244,7 +244,7 @@ html, body {
 
   .mur {
     min-height: 80vh;
-    overflow: auto;
+    overflow: hidden;
     margin: 35px; 
     box-sizing: border-box;
     border: 8px solid var(--brown);

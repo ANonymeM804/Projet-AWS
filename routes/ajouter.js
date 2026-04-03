@@ -17,7 +17,7 @@ router.get("/ajouter", function (req, res) {
         return res.redirect("/mur_postits?error=create_denied");
     }
 
-    return res.sendFile(path.join(__dirname, "../public/html/ajouter.html"));
+    res.render('ajouter.njk', { csrfToken: req.csrfToken() });
 });
 
 // Ajouter un post-it

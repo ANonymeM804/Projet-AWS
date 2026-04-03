@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Afficher la page login
 router.get("/login", function (req, res) {
-    res.sendFile(path.join(__dirname, "../public/html/login.html"));
+    res.render('login.njk', { csrfToken: req.csrfToken() });
 });
 
 // Traiter le formulaire login

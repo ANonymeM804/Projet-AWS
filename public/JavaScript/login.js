@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.getElementById('loginForm');
     const usernameInput = document.getElementById('username');
@@ -8,6 +9,8 @@
     const params = new URLSearchParams(window.location.search);
     const error = params.get("error");
     const success = params.get("success");
+
+    const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
 
     if (error === "missing") {
       messageDiv.textContent = "Tous les champs sont obligatoires.";
@@ -43,29 +46,33 @@
         return;
       }
 
+      const response = await fetch('/login', {
+        method: 'POST',
+        credentials: "include",
+        headers: { 'Content-Type': 'application/json',
+                   'CSRF-Token': csrfToken 
+         },
+        body: JSON.stringify({ username, password})
+      });
+
+      let data;
       try {
-        const response = await fetch('/login', {
-          method: 'POST',
-          credentials: "include",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username, password })
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.success) {
-          // Stocker le username dans sessionStorage
-          sessionStorage.setItem('username', data.user.username);
-          // Rediriger vers le mur
-          window.location.href = data.redirect || '/mur_postits';
-        } else {
-          // Gérer les erreurs (ex: identifiants incorrects)
-          messageDiv.textContent = data.error || 'Nom d\'utilisateur ou mot de passe incorrect.';
-          messageDiv.classList.add('error');
-        }
+        data = await response.json(); 
       } catch (err) {
-        console.error('Erreur réseau :', err);
-        messageDiv.textContent = 'Erreur de connexion au serveur.';
+        const text = await response.text();
+        console.error('Réponse brute du serveur:', text);
+        messageDiv.textContent = 'Erreur de connexion (CSRF peut-être invalide)';
+        messageDiv.classList.add('error');
+        return;
+      }
+
+      if (response.ok && data.success) {
+        sessionStorage.setItem('username', data.user.username);
+        window.location.href = data.redirect || '/mur_postits';
+      } else {
+        messageDiv.textContent = data.error || 'Nom d\'utilisateur ou mot de passe incorrect.';
         messageDiv.classList.add('error');
       }
     });
+
+  });

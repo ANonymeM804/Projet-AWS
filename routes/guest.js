@@ -6,8 +6,7 @@ const router= express.Router(); //mini serveur de route qu'on peut brancher dans
 router.use(express.static('public'));
 
 router.get("/guest", function(req,res){
-    
-    return res.sendFile(path.join(__dirname, "../public/html/guest.html"));
+    res.render('guest.njk', { csrfToken: req.csrfToken() });
 });
 
 module.exports=router; //rendre la route accessible depuis un autre fichier

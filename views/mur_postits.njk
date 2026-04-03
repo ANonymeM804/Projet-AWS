@@ -2,14 +2,15 @@
 <html lang="fr">
  <head>
    <meta charset="utf-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
    <title>Sticko - Post-its </title>
-   <link rel="stylesheet" href="../css/admin.css">
+   <link rel="stylesheet" href="../css/mur_postits.css">
  </head>
 
  <body>
     
-
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}"><!--ajouter token -->
+    
     <nav>
         <div class="user-info" id="user-info"></div>
         <ul>
@@ -25,7 +26,7 @@
     
     <div class="mur" id="mur" >
         
-
+    <div id="alertBox" class="alert-box hidden"></div>
     </div>
     
     
@@ -38,7 +39,6 @@
   </span>
 </footer>
 
-    <script src="../JavaScript/admin.js"></script>
-  
+    <script src="../JavaScript/mur_postits.js"></script>
 </body>
 </html>

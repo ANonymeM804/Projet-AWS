@@ -14,8 +14,7 @@ router.get("/mur_postits", function (req, res) {
     if (!req.session.user) {
         return res.redirect("/login");
     }
-
-    return res.sendFile(path.join(__dirname, "../public/html/mur_postits.html"));
+    res.render('mur_postits.njk', { csrfToken: req.csrfToken() });
 });
 
 // Route pour récupérer les données de l'utilisateur connecté

@@ -151,6 +151,8 @@ initialiserMur();
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
+
     //controle des bouttons de chaque postit
 
     const mur = document.getElementById("mur");
@@ -196,13 +198,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 //envoyer le postit au serveur
                 fetch("/modifier",{
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},
+                    headers: {'Content-Type': "application/json",
+                              'CSRF-Token': csrfToken },
                     body:JSON.stringify({id: postit_id, text: texte, color: couleur, modified_by: currentUser.username}) 
                     }) 
                     .then(res => res.json())
                     .then(data => {
                         console.log("Post-it modifié");
-                        window.location.href = "/mur_postits";
+                        window.location.href = "/modifier";
                     
                     })
                     .catch(err => console.error("Erreur modification post-it :", err));
@@ -245,7 +248,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             
         }
-        
+
         //au relachement
         function onMouseUp(){
             document.removeEventListener("mousemove",onMouseMove);
@@ -255,7 +258,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 //envoyer les nouvelles coordonnées au serveur
                 fetch("/deplacement",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: {'Content-Type': "application/json",
+                                  'CSRF-Token': csrfToken },
                         body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
                         }) 
                         .then(res => res.json())

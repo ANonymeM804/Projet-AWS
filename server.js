@@ -1,22 +1,21 @@
 
 //const https = require("https");//https pour le serveur sécurisé
 //const fs = require("fs");//fs pour lire les fichiers de certificats SSL
-//const path = require("path");//path pour gérer les chemins de fichiers
+const path = require("path");//path pour gérer les chemins de fichiers
 const express = require("express");//express pour créer le serveur web
 const session = require("express-session");//express-session pour gérer les sessions utilisateur
 const app = express();
 const helmet = require('helmet');//securite headers, eviter attaque clickjacking
 const csurf = require('csurf'); //jeton
+const nunjucks = require('nunjucks');
 
+nunjucks.configure(path.join(__dirname, 'views'), {
+    autoescape: true,
+    express: app
+});
 
-// Middleware
 app.use(helmet());
-app.use(csurf());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public', { etag: false }));//ne pas reveler les inodes
-app.set('etag', false);
-
 app.use(session({
     secret: "sticko_secret_key",
     resave: false,
@@ -28,7 +27,14 @@ app.use(session({
     }
 }));
 
-
+// Middleware
+app.use(csurf({
+  cookie: false,
+  value: (req) => req.headers['csrf-token'] //lire dans le header
+}));
+app.use(express.json());
+app.use(express.static('public', { etag: false }));//ne pas reveler les inodes
+app.set('etag', false);
 
 app.disable('x-powered-by');//ne pas reveler qu'on utilise express
 
@@ -66,6 +72,15 @@ app.use(admin);
 https.createServer(sslOptions, app).listen(3001, () => {
     console.log("Serveur HTTPS démarré sur https://localhost:3001");
 });*/
+
+// server.js ou app.js
+app.use((err, req, res, next) => {
+  if (err.code === 'EBADCSRFTOKEN') {
+    // Token CSRF invalide
+    return res.status(403).json({ success: false, error: 'csrf_invalid' });
+  }
+  next(err);
+});
 
 // Démarrage du serveur HTTP
 app.listen(3000, () => {

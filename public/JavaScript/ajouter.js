@@ -128,6 +128,8 @@ initialiserMur();
 
 //ecouter apres la creation du document non pas avant
 document.addEventListener("DOMContentLoaded", () => { 
+  
+  const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
 
   const mur = document.getElementById("mur");//recuperation de l'elem html ou on ajout le post it
   const popup = document.getElementById("popup-postit");//recuperation de la fenetre
@@ -207,7 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
       //envoyer le postit au serveur
         fetch("/ajouter",{
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: {'Content-Type': "application/json",
+                      'CSRF-Token': csrfToken },
             body:JSON.stringify({text: texte, x: x, y: y, color: couleur}) // user_id à récupérer de la session
             }) 
             .then(res => res.json())
@@ -262,7 +265,8 @@ mur.addEventListener("mousedown", function(elem){
                 //envoyer les nouvelles coordonnées au serveur
                 fetch("/deplacement",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: {'Content-Type': "application/json",
+                                  'CSRF-Token': csrfToken },
                         body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
                         }) 
                         .then(res => res.json())

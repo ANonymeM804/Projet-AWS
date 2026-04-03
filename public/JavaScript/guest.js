@@ -131,6 +131,8 @@ async function initialiserMur() {
 
 document.addEventListener("DOMContentLoaded", async() => { 
 
+    const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
+
     //initialiser mur
     await initialiserMur();
 
@@ -176,7 +178,9 @@ document.addEventListener("DOMContentLoaded", async() => {
                 //envoyer les nouvelles coordonnées au serveur
                 fetch("/deplacement",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: { 'Content-Type': 'application/json',
+                                   'CSRF-Token': csrfToken 
+                        },
                         body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
                         }) 
                         .then(res => res.json())

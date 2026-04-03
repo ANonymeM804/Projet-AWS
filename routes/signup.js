@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Afficher la page signup
 router.get("/signup", function (req, res) {
-    res.sendFile(path.join(__dirname, "../public/html/signup.html"));
+    res.render('signup.njk', { csrfToken: req.csrfToken() });
 });
 
 // Traiter le formulaire signup

@@ -162,8 +162,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // charger utilisateur + postits
     await initialiserMur();
 
+     const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
+     
     //faire deplacer les postits
     const mur= document.getElementById("mur");
+    
+
+    //faire deplacer les postits
     mur.addEventListener("mousedown", function(elem){
 
         //seulement si on clique sur un postit
@@ -175,6 +180,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const y=parseInt(postit.dataset.y);
 
         postit.style.zIndex= postit.dataset.zindex +1; 
+
 
         //nouvelle position du postit
         let newX, newY;
@@ -193,7 +199,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             
         }
-        
+
         //au relachement
         function onMouseUp(){
             document.removeEventListener("mousemove",onMouseMove);
@@ -203,7 +209,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 //envoyer les nouvelles coordonnées au serveur
                 fetch("/deplacement",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: {'Content-Type': "application/json",
+                                  'CSRF-Token': csrfToken },
                         body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
                         }) 
                         .then(res => res.json())

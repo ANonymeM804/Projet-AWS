@@ -22,8 +22,7 @@ router.get("/modifier", function (req, res) {
         return res.redirect("/mur_postits?error=edit_denied");
     }
 
-
-    return res.sendFile(path.join(__dirname, "../public/html/modifier.html"));
+    res.render('modifier.njk', { csrfToken: req.csrfToken() });
 });
 
 // Modifier un post-it

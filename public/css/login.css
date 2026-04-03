@@ -276,7 +276,7 @@ html, body {
 
   .mur {
     min-height: 80vh;
-    overflow: auto;
+    overflow: hidden;
   }
 
   .postit {
@@ -316,7 +316,7 @@ html, body {
 
   .mur {
     min-height: 80vh;
-    overflow: auto;
+    overflow: hidden;
   }
 
   .postit {

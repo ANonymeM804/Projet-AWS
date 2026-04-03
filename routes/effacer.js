@@ -26,7 +26,7 @@ router.get("/effacer", function (req, res) {
         return res.redirect("/mur_postits?error=delete_denied");
     }
 
-    return res.sendFile(path.join(__dirname, "../public/html/effacer.html"));
+    res.render('effacer.njk', { csrfToken: req.csrfToken() });
 });
 
 // Route pour supprimer un post-it

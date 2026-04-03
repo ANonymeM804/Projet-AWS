@@ -152,6 +152,8 @@ initialiserMur();
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const csrfToken = document.querySelector('input[name="_csrf"]').value; // récupère le token depuis le hidden input
+
     //controle des bouttons de chaque postit
     const mur = document.getElementById("mur");
 
@@ -177,7 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 //envoyer le postit au serveur
                     fetch("/effacer",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: {'Content-Type': "application/json",
+                                  'CSRF-Token': csrfToken},
                         body:JSON.stringify({id: postit_id})
                         }) 
                         .then(res => res.json())
@@ -237,7 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 //envoyer les nouvelles coordonnées au serveur
                 fetch("/deplacement",{
                         method: "POST",
-                        headers: {"Content-Type": "application/json"},
+                        headers: {'Content-Type': "application/json",
+                                  'CSRF-Token': csrfToken},
                         body:JSON.stringify({id: postit.dataset.id, x: newX, y: newY}) 
                         }) 
                         .then(res => res.json())
