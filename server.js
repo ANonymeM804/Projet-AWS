@@ -98,7 +98,9 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-// Démarrage du serveur HTTP
-app.listen(3000, () => {
-    console.log("Serveur HTTP démarré sur http://localhost:3000");
+// Démarrage 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
